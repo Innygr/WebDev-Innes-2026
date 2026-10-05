@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Tiny Safe™ 3D Prototype</title>
+<style>
+  html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111;font-family:Arial,sans-serif;touch-action:none}
+  canvas{display:block}
+  #ui{position:fixed;top:12px;left:12px;z-index:5;color:white;background:#111c;padding:12px 14px;border:1px solid #555;border-radius:10px;backdrop-filter:blur(5px);max-width:calc(100vw - 40px)}
+  #title{font-size:20px;font-weight:bold}
+  #status{margin-top:6px;font-size:15px}
+  #code{margin-top:5px;font-family:monospace;letter-spacing:4px}
+  #hint{margin-top:7px;font-size:13px;color:#bbb}
+  #controls{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:5;display:none;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(2,64px);gap:8px}
+  button{font-size:28px;border:2px solid #777;border-radius:14px;background:#222d;color:#fff;touch-action:none;-webkit-user-select:none;user-select:none}
+  button:active{background:#555}
+  #up{grid-column:2} #left{grid-column:1;grid-row:2} #down{grid-column:2;grid-row:2} #right{grid-column:3;grid-row:2}
+  @media(max-width:700px){#controls{display:grid}#ui{font-size:14px}.hint{display:none}}
+</style>
+</head>
+<body>
+<div id="ui">
+  <div id="title">Tiny Safe™</div>
+  <div id="status">Enter the combo</div>
+  <div id="code">_ _ _ _ _ _ _ _</div>
+  <div id="hint">Keyboard: W W A A S S D D &nbsp; (↑ ↑ ← ← ↓ ↓ → →)</div>
+</div>
+
+<div id="controls">
+  <button id="up">↑</button>
+  <button id="left">←</button>
+  <button id="down">↓</button>
+  <button id="right">→</button>
+</div>
+
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"}}
+</script>
+
+<script type="module">
+import * as THREE from "three";
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x111318);
+
+const camera = new THREE.PerspectiveCamera(48, innerWidth/innerHeight, 0.1, 100);
+camera.position.set(5.2,4.3,7.5);
+camera.lookAt(0,1.5,0);
+
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth,innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+
+scene.add(new THREE.HemisphereLight(0xffffff,0x222233,2.0));
+const key = new THREE.DirectionalLight(0xffffff,3);
+key.position.set(4,7,5);
+key.castShadow = true;
+scene.add(key);
+
+const floor = new THREE.Mesh(
+  new THREE.BoxGeometry(12,.25,12),
+  new THREE.MeshStandardMaterial({color:0x292c33,roughness:.85})
+);
+floor.position.y=-.15;
+floor.receiveShadow=true;
+scene.add(floor);
+
+const safe = new THREE.Group();
+scene.add(safe);
+
+const metal = new THREE.MeshStandardMaterial({color:0x565d68,metalness:.75,roughness:.28});
+const darkMetal = new THREE.MeshStandardMaterial({color:0x252a31,metalness:.8,roughness:.22});
+const black = new THREE.MeshStandardMaterial({color:0x090a0c,metalness:.3,roughness:.4});
+const red = new THREE.MeshStandardMaterial({color:0xcc2027,emissive:0x330000});
+const gold = new THREE.MeshStandardMaterial({color:0xb58b30,metalness:.8,roughness:.2});
+
+function box(w,h,d,mat){
+  const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
+  m.castShadow=true;m.receiveShadow=true;
+  return m;
+}
+
+// Main safe body. Front is +Z.
+const body = box(5,4.2,3.1,metal);
+body.position.set(0,2.1,0);
+safe.add(body);
+
+// Recessed front frame
+const frame = box(4.55,3.75,.18,darkMetal);
+frame.position.set(0,2.1,1.62);
+safe.add(frame);
+
+// Entire door assembly shares one real hinge pivot.
+// Everything physically mounted to the door is a child of this group.
+const doorPivot = new THREE.Group();
+doorPivot.position.set(-2.12,2.1,1.74);
+safe.add(doorPivot);
+
+const door = box(4.15,3.45,.22,metal);
+door.position.set(2.075,0,0);
+doorPivot.add(door);
+
+// Door inner panel
+const doorInset = box(3.65,2.95,.12,darkMetal);
+doorInset.position.set(2.075,0,-.16);
+doorPivot.add(doorInset);
+
+// Door-mounted lock housing
+const lockHousing=box(1.35,1.35,.28,black);
+lockHousing.position.set(3.17,0,.18);
+doorPivot.add(lockHousing);
+
+// Door-mounted dial
+const dial=new THREE.Mesh(new THREE.CylinderGeometry(.43,.43,.18,32),gold);
+dial.rotation.x=Math.PI/2;
+dial.position.set(3.17,0,.39);
+doorPivot.add(dial);
+
+// Door-mounted LED
+const led=new THREE.Mesh(new THREE.SphereGeometry(.09,16,16),red);
+led.position.set(3.60,.47,.38);
+doorPivot.add(led);
+
+// Hinges move with the door assembly.
+for(const y of [-1.35,1.35]){
+  const hinge = new THREE.Mesh(new THREE.CylinderGeometry(.16,.16,.65,16),darkMetal);
+  hinge.rotation.z=Math.PI/2;
+  hinge.position.set(0,y,0);
+  doorPivot.add(hinge);
+}
+
+// Gear on the safe body
+const gear = new THREE.Group();
+gear.position.set(-.75,2.05,1.94);
+safe.add(gear);
+
+const gearCore=new THREE.Mesh(new THREE.CylinderGeometry(.38,.38,.16,24),gold);
+gearCore.rotation.x=Math.PI/2;
+gear.add(gearCore);
+
+// Gear teeth
+for(let i=0;i<12;i++){
+  const tooth=box(.13,.22,.16,gold);
+  const a=i*Math.PI*2/12;
+  tooth.position.set(Math.cos(a)*.39,Math.sin(a)*.39,0);
+  tooth.rotation.z=a;
+  gear.add(tooth);
+}
+
+// Sliding bolt: its X position changes to retract.
+const bolt=box(1.45,.25,.3,darkMetal);
+bolt.position.set(-1.42,2.55,1.96);
+safe.add(bolt);
+const boltStartX=-1.42;
+const boltEndX=-.25;
+
+// Bolt receiver on door
+const receiver=box(.35,.42,.42,black);
+receiver.position.set(-1.82,2.55,2.02);
+safe.add(receiver);
+
+// Tiny plush-like object inside the safe (generic original design)
+const plush=new THREE.Group();
+plush.position.set(.1,1.0,-.55);
+safe.add(plush);
+const plushBody=new THREE.Mesh(new THREE.SphereGeometry(.52,16,12),black);
+plushBody.scale.y=1.25;
+plush.add(plushBody);
+const eyeMat=new THREE.MeshStandardMaterial({color:0xdddddd,emissive:0x222222});
+for(const x of [-.18,.18]){
+  const eye=new THREE.Mesh(new THREE.SphereGeometry(.1,12,12),eyeMat);
+  eye.position.set(x,.18,.43);
+  plush.add(eye);
+}
+
+// State
+const combo=["W","W","A","A","S","S","D","D"];
+let entered=[];
+let unlocked=false;
+let busy=false;
+let boltT=0;
+let doorT=0;
+let gearAngle=0;
+
+const statusEl=document.getElementById("status");
+const codeEl=document.getElementById("code");
+
+function renderCode(){
+  codeEl.textContent=Array.from({length:8},(_,i)=>entered[i]||"_").join(" ");
+}
+renderCode();
+
+function setStatus(s){statusEl.textContent=s}
+
+function tryKey(k){
+  if(busy||unlocked)return;
+  if(!["W","A","S","D"].includes(k))return;
+
+  entered.push(k);
+  renderCode();
+
+  const n=entered.length-1;
+  if(k!==combo[n]){
+    busy=true;
+    setStatus("❌ Wrong combo — resetting");
+    led.material=red;
+    setTimeout(()=>{
+      entered=[];
+      renderCode();
+      setStatus("Enter the combo");
+      busy=false;
+    },650);
+    return;
+  }
+
+  if(entered.length===combo.length){
+    unlocked=true;
+    busy=true;
+    setStatus("🔓 Correct! Unlocking...");
+    unlock();
+  }
+}
+
+addEventListener("keydown",e=>{
+  if(e.repeat)return;
+  const k=e.key.toUpperCase();
+  tryKey(k);
+});
+
+// Touch buttons
+const bindings={up:"W",left:"A",down:"S",right:"D"};
+for(const [id,k] of Object.entries(bindings)){
+  const b=document.getElementById(id);
+  const press=e=>{
+    e.preventDefault();
+    tryKey(k);
+  };
+  b.addEventListener("pointerdown",press);
+}
+
+function unlock(){
+  const start=performance.now();
+  const duration=1250;
+  function step(now){
+    const t=Math.min((now-start)/duration,1);
+    // Smooth gear rotation.
+    gearAngle=t*Math.PI*4;
+    gear.rotation.z=-gearAngle;
+
+    // Bolt retracts during first 65%.
+    const bt=Math.min(t/.65,1);
+    boltT=bt;
+    bolt.position.x=THREE.MathUtils.lerp(boltStartX,boltEndX,bt);
+
+    if(t<1){
+      requestAnimationFrame(step);
+    }else{
+      openDoor();
+    }
+  }
+  requestAnimationFrame(step);
+}
+
+function openDoor(){
+  const start=performance.now();
+  const duration=1100;
+  const initial=doorPivot.rotation.y;
+  function step(now){
+    const t=Math.min((now-start)/duration,1);
+    const eased=1-Math.pow(1-t,3);
+    doorPivot.rotation.y=initial+eased*(-Math.PI*.72);
+    plush.visible=true;
+    if(t<1){
+      requestAnimationFrame(step);
+    }else{
+      setStatus("🚪 Unlocked!");
+      busy=false;
+    }
+  }
+  requestAnimationFrame(step);
+}
+
+function resize(){
+  camera.aspect=innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+}
+addEventListener("resize",resize);
+
+function animate(){
+  requestAnimationFrame(animate);
+
+  // Subtle idle motion.
+  if(!unlocked){
+    gear.rotation.z=Math.sin(performance.now()*.001)*.03;
+  }
+
+  // Plush gently bobs once visible.
+  if(unlocked){
+    plush.position.y=1.0+Math.sin(performance.now()*.004)*.035;
+  }
+
+  renderer.render(scene,camera);
+}
+animate();
+</script>
+</body>
+</html>
