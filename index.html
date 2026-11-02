@@ -1,17 +1,72 @@
+<!doctype html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080d18">
+  <meta name="description" content="Innes's Web Development 2026 portfolio, assignments, robotics projects, and interactive demos.">
+  <title>WebDev 2026 | Innes</title>
+  <style>
+    :root{color-scheme:dark;--bg:#080d18;--panel:#111b2c;--panel2:#16243a;--line:#263b58;--text:#edf5ff;--muted:#9aacc4;--cyan:#55e8ff;--purple:#b39aff}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 50% -15%,#19345a 0,transparent 48%),var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+    a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline;color:#b5f7ff}a:focus-visible,button:focus-visible{outline:3px solid var(--purple);outline-offset:3px}
+    .wrap{width:min(1100px,calc(100% - 36px));margin:auto}.hero{padding:76px 0 54px;text-align:center}.brand{width:76px;height:76px;object-fit:contain;border:1px solid var(--line);border-radius:22px;background:#111b2c;padding:8px;box-shadow:0 12px 40px #0006}
+    .eyebrow{margin:20px 0 4px;color:var(--cyan);font-size:.78rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase}.hero h1{margin:0;font-size:clamp(2.5rem,7vw,5rem);line-height:1.05;letter-spacing:-.055em}.hero h1 span{color:var(--purple)}.intro{max-width:650px;margin:18px auto 0;color:var(--muted);font-size:1.08rem}
+    nav{position:sticky;top:0;z-index:5;background:#080d18dd;backdrop-filter:blur(14px);border-block:1px solid #263b5866}nav .wrap{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;padding:12px 0}nav a{font-size:.9rem;font-weight:700}
+    main{padding:32px 0 70px}.section{margin:28px 0 46px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:17px}.section h2{margin:0;font-size:1.65rem;letter-spacing:-.03em}.section-head p{margin:0;color:var(--muted);font-size:.9rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,245px),1fr));gap:16px}.card{display:flex;flex-direction:column;min-height:190px;padding:22px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,var(--panel2),var(--panel));box-shadow:0 12px 30px #0002;transition:transform .2s,border-color .2s}.card:hover{transform:translateY(-4px);border-color:#55e8ff88}.tag{align-self:flex-start;padding:3px 9px;border:1px solid #55e8ff44;border-radius:999px;color:var(--cyan);font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.card h3{margin:13px 0 5px;font-size:1.16rem}.card p{margin:0 0 18px;color:var(--muted);font-size:.92rem}.card .go{margin-top:auto;font-weight:750}.card .go::after{content:" ↗";color:var(--purple)}
+    .notice{padding:17px 20px;border:1px solid #b39aff55;border-radius:14px;background:#b39aff0d;color:var(--muted)}.notice strong{color:var(--text)}footer{border-top:1px solid var(--line);padding:26px 0 38px;color:var(--muted);text-align:center;font-size:.85rem}
+    @media(max-width:600px){.hero{padding:54px 0 38px}nav .wrap{gap:12px}.section-head{display:block}.section-head p{margin-top:4px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+  </style>
 </head>
 <body>
-<h1>index.html</h1>
-<h3>WebDev Innes 2026</h3 <img src="NegInny.png" width="50"><br>
-Links: <br>
-<ol>
-  <li><a href="t1a01-simple-Innes.html">t1a01-simple-Innes.html</a>
-  <li><a href="t1a02-table-Innes.html"> t1a02-table-Innes</a></li><br>
-  <li><a href="t1a03-forms-Innes.html"> t1a03-forms-Innes</a></li><br>
-  <li><a href="robotics.html">Robotics</a></li><br>
-</ol>  <br>
-X-assignments or smth<br>
-  <ul>
-    
-  </ul>
+  <header class="hero">
+    <div class="wrap">
+      <img class="brand" src="NegInny.png" alt="Innes project logo">
+      <p class="eyebrow">Web Development • 2026</p>
+      <h1>WebDev <span>Innes</span></h1>
+      <p class="intro">A collection of web development assignments, experiments, interactive projects, and proof of work.</p>
+    </div>
+  </header>
+  <nav aria-label="Main navigation"><div class="wrap">
+    <a href="#assignments">Assignments</a><a href="#projects">Projects</a><a href="#experiments">Experiments</a>
+  </div></nav>
+  <main class="wrap">
+    <section class="section" id="assignments">
+      <div class="section-head"><h2>Course assignments</h2><p>Term 1 • HTML foundations</p></div>
+      <div class="grid">
+        <article class="card"><span class="tag">T1 • Intro</span><h3>Simple HTML & JavaScript</h3><p>A basic page experiment with styling and a sound button.</p><a class="go" href="t1a00-simple-Innes.html">Open assignment</a></article>
+        <article class="card"><span class="tag">T1 • Tables</span><h3>HTML Tables</h3><p>Working with table rows, cells, links, and images.</p><a class="go" href="t1a01-table-Innes.html">Open assignment</a></article>
+        <article class="card"><span class="tag">T1 • Lists</span><h3>HTML Lists</h3><p>Lists and linked content, with a whale theme.</p><a class="go" href="t1a02-list-Innes.html">Open assignment</a></article>
+        <article class="card"><span class="tag">T1 • Forms</span><h3>HTML Forms</h3><p>Exploring form elements and input controls.</p><a class="go" href="t1a03-forms-Innes.html">Open assignment</a></article>
+      </div>
+    </section>
+    <section class="section" id="projects">
+      <div class="section-head"><h2>Projects & builds</h2><p>Hardware, software, and interactive work</p></div>
+      <div class="grid">
+        <article class="card"><span class="tag">Robotics</span><h3>Project Hub</h3><p>Explore the crystal scene, project evidence, and build pages.</p><a class="go" href="robotics.html">Open robotics hub</a></article>
+        <article class="card"><span class="tag">Final project</span><h3>Combination Lock</h3><p>A physical lock concept using a joystick, OLED, XIAO ESP32-S3, servos, and a speaker.</p><a class="go" href="Final/Final.html">View final project</a></article>
+        <article class="card"><span class="tag">Evidence</span><h3>Project Media</h3><p>Videos and media documenting the Sound Stream and embedded-systems work.</p><a class="go" href="images.html">View project evidence</a></article>
+      </div>
+    </section>
+    <section class="section" id="experiments">
+      <div class="section-head"><h2>Experiments</h2><p>Tools and browser-based demos</p></div>
+      <div class="grid">
+        <article class="card"><span class="tag">AI • Computer vision</span><h3>WebMCU AI</h3><p>On-device vision model activity and setup instructions.</p><a class="go" href="webmcu-ai-Innes.html">Open WebMCU AI page</a></article>
+        <article class="card"><span class="tag">3D • Simulation</span><h3>Tiny Safe Prototype</h3><p>Try the interactive 3D combination-lock simulation.</p><a class="go" href="Final/Simulated.html">Launch simulation</a></article>
+      </div>
+    </section>
+    <aside class="notice"><strong>Heads up:</strong> Some assignments are still works in progress. If a page is incomplete, its current state is shown rather than pretending it is finished.</aside>
+  </main>
+  <footer><div class="wrap">WebDev Innes • 2026 · Built with HTML, CSS, and JavaScript</div></footer>
+  <script>
+    document.querySelectorAll("a.needs-upgrade").forEach(link => {
+      link.addEventListener("click", event => {
+        event.preventDefault();
+        alert("This assignment is actively being upgraded; please wait");
+      });
+    });
+  </script>
 </body>
+</html>
