@@ -1,9 +1,52 @@
-<p>
-  Description: a combination lock that uses a HW-504 joystick, a 128x64 OLED, a Xiao_esp32s3 chip, a breadboard, a mini speaker, 2 servos, and some 3D printed stuff.
-  <div id="diagrams">
-  <img src="DiagramV1.jpeg"><br>
-  <img src="DiagramV2.jpeg"><br>
-  <img src="DiagramV3.jpeg"><br>
-  <a href="Simulated.html">Simulated</a>
-    </div>
-</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080d18">
+  <title>Combination Lock | WebDev Innes</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#080d18;color:#edf5ff;font:16px/1.65 system-ui,sans-serif}
+    a{color:#55e8ff;text-decoration:none}a:hover{text-decoration:underline}.wrap{width:min(900px,calc(100% - 36px));margin:auto}
+    header{padding:56px 0 35px;background:radial-gradient(ellipse at top,#19345a,transparent 70%)}.eyebrow{color:#55e8ff;text-transform:uppercase;letter-spacing:.18em;font-size:.78rem;font-weight:800}
+    h1{font-size:clamp(2.2rem,6vw,4rem);line-height:1.08;margin:.3rem 0}.muted{color:#9aacc4}.panel{padding:24px;margin:20px 0;border:1px solid #263b58;border-radius:18px;background:#111b2c}
+    h2{margin-top:0}ul{padding-left:1.3rem}li{margin:.35rem 0}.diagram{display:block;width:100%;height:auto;border:1px solid #263b58;border-radius:12px;background:#080d18}
+    .button{display:inline-block;padding:11px 16px;border-radius:10px;background:#55e8ff;color:#06111a;font-weight:800}.button:hover{background:#b5f7ff;text-decoration:none}
+    footer{padding:30px 0;color:#71839c;text-align:center}
+  </style>
+</head>
+<body>
+  <header><div class="wrap">
+    <p class="eyebrow">WebDev 2026 • Final project</p>
+    <h1>Combination Lock</h1>
+    <p class="muted">An embedded combination-lock prototype with physical controls and an electronic interface.</p>
+    <a href="../index.html">← Back to project index</a>
+  </div></header>
+  <main class="wrap">
+    <section class="panel">
+      <h2>Project overview</h2>
+      <p>The project is a combination lock built around a <strong>XIAO ESP32-S3</strong>. A HW-504 joystick is used for input, a 128×64 OLED displays the interface, and servos operate the locking mechanism. A mini speaker provides audio feedback.</p>
+      <h3>Hardware</h3>
+      <ul>
+        <li>XIAO ESP32-S3 microcontroller</li>
+        <li>HW-504 joystick module</li>
+        <li>128×64 OLED display</li>
+        <li>Two servo motors</li>
+        <li>Mini speaker</li>
+        <li>Breadboard, wiring, and 3D-printed components</li>
+      </ul>
+    </section>
+    <section class="panel">
+      <h2>System diagram</h2>
+      <p class="muted">Current documented design diagram.</p>
+      <img class="diagram" src="DiagramV3.jpeg" alt="Combination lock system diagram, version 3">
+    </section>
+    <section class="panel">
+      <h2>Interactive prototype</h2>
+      <p>Try the browser-based 3D safe simulation to explore the combination-entry interaction.</p>
+      <a class="button" href="Simulated.html">Launch 3D simulation ↗</a>
+    </section>
+  </main>
+  <footer><div class="wrap">WebDev Innes • 2026</div></footer>
+</body>
+</html>
