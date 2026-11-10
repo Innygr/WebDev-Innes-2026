@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080d18">
+  <meta name="description" content="L-19 JSON assignment: explore eight public APIs with JavaScript fetch and JSON.">
+  <title>L-19 • JSON API Explorer</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080d18;
+      --panel: #111b2c;
+      --panel2: #16243a;
+      --line: #263b58;
+      --text: #edf5ff;
+      --muted: #9aacc4;
+      --cyan: #55e8ff;
+      --purple: #b39aff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(ellipse at 50% -15%, #19345a 0, transparent 48%), var(--bg);
+      color: var(--text);
+      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    a { color: var(--cyan); }
+    .wrap { width: min(900px, calc(100% - 32px)); margin: auto; }
+    header { padding: 42px 0 24px; text-align: center; }
+    h1 { margin: 0; font-size: clamp(2rem, 6vw, 3.4rem); letter-spacing: -.045em; }
+    header p { color: var(--muted); margin: 8px auto 0; max-width: 650px; }
+    main { padding: 10px 0 60px; }
+    .panel {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(145deg, var(--panel2), var(--panel));
+      box-shadow: 0 14px 36px #0003;
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+      gap: 14px;
+      align-items: end;
+    }
+    label { display: block; margin-bottom: 6px; font-weight: 700; }
+    select, button {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 1px solid #405777;
+      border-radius: 10px;
+      background: #0b1423;
+      color: var(--text);
+      font: inherit;
+    }
+    button {
+      cursor: pointer;
+      border-color: #55e8ff88;
+      background: #15334a;
+      font-weight: 750;
+    }
+    button:hover { background: #1c4560; }
+    button:focus-visible, select:focus-visible, a:focus-visible {
+      outline: 3px solid var(--purple);
+      outline-offset: 3px;
+    }
+    [hidden] { display: none !important; }
+    #myDiv1 {
+      margin-top: 18px;
+      padding: 18px;
+      min-height: 120px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #0a1220;
+      overflow-wrap: anywhere;
+    }
+    #myDiv1 h2 { margin: 0 0 10px; }
+    #myDiv1 .summary { white-space: pre-line; }
+    #myDiv1 img {
+      display: block;
+      max-width: min(100%, 420px);
+      max-height: 350px;
+      margin: 16px auto;
+      border-radius: 12px;
+    }
+    #myDiv1 pre {
+      max-height: 420px;
+      overflow: auto;
+      padding: 14px;
+      border-radius: 10px;
+      background: #111b2c;
+      color: #d7e9ff;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-size: .86rem;
+    }
+    details { margin-top: 18px; }
+    details summary { cursor: pointer; color: var(--cyan); font-weight: 750; }
+    .note {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+    footer { padding: 0 0 28px; text-align: center; color: var(--muted); font-size: .85rem; }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <h1>L-19: JSON API Explorer</h1>
+    <p>Explore eight different APIs and see how JavaScript fetches, parses, and displays JSON data.</p>
+  </header>
+
+  <main class="wrap">
+    <section class="panel" aria-label="API explorer">
+      <div class="controls">
+        <div>
+          <label for="mySelect">Choose an API</label>
+          <select id="mySelect">
+            <option value="">-- Select an API --</option>
+            <optgroup label="Animals">
+              <option value="dog">Random Dog Image</option>
+              <option value="cat">Cat Fact</option>
+            </optgroup>
+            <optgroup label="Everyday Information">
+              <option value="advice">Random Advice</option>
+              <option value="weather">City Weather</option>
+            </optgroup>
+            <optgroup label="Games and Fiction">
+              <option value="pokemon">Pokémon Data</option>
+              <option value="rickmorty">Rick and Morty Character</option>
+            </optgroup>
+            <optgroup label="Science and Development">
+              <option value="post">Sample JSON Post</option>
+              <option value="earthquakes">Earthquake Data (Past Day)</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div id="weatherCityWrap" hidden>
+          <label for="weatherCity">Weather city (manual selection)</label>
+          <select id="weatherCity">
+            <option value="49.2827,-123.1207">Vancouver</option>
+            <option value="49.1329,-122.3261">Mission</option>
+            <option value="43.6532,-79.3832">Toronto</option>
+            <option value="45.5019,-73.5674">Montreal</option>
+            <option value="51.5072,-0.1276">London</option>
+            <option value="35.6762,139.6503">Tokyo</option>
+            <option value="40.7128,-74.0060">New York</option>
+            <option value="-33.8688,151.2093">Sydney</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="fetchAgain">Request controls</label>
+          <button id="fetchAgain" type="button">Fetch / Refresh</button>
+        </div>
+      </div>
+
+      <p class="note">Weather uses only the city selected above. This page does not request GPS or browser location access.</p>
+
+      <div id="myDiv1" aria-live="polite">
+        Choose an API to load its data.
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">L-19 JSON assignment • JavaScript fetch() • JSON.parse via response.json()</footer>
+
+  <script>
+    const myApis = {
+      dog: {
+        name: "Random Dog Image",
+        url: "https://dog.ceo/api/breeds/image/random"
+      },
+      cat: {
+        name: "Cat Fact",
+        url: "https://catfact.ninja/fact"
+      },
+      advice: {
+        name: "Random Advice",
+        url: "https://api.adviceslip.com/advice"
+      },
+      pokemon: {
+        name: "Pokémon Data",
+        url: "https://pokeapi.co/api/v2/pokemon/ditto"
+      },
+      weather: {
+        name: "City Weather",
+        url: "https://api.open-meteo.com/v1/forecast"
+      },
+      post: {
+        name: "Sample JSON Post",
+        url: "https://jsonplaceholder.typicode.com/posts/1"
+      },
+      rickmorty: {
+        name: "Rick and Morty Character",
+        url: "https://rickandmortyapi.com/api/character/1"
+      },
+      earthquakes: {
+        name: "Earthquake Data (Past Day)",
+        url: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson"
+      }
+    };
+
+    const output = document.getElementById("myDiv1");
+    const apiSelect = document.getElementById("mySelect");
+    const citySelect = document.getElementById("weatherCity");
+    const cityWrap = document.getElementById("weatherCityWrap");
+
+    function makeElement(tag, text, parent, className) {
+      const element = document.createElement(tag);
+      if (text !== undefined && text !== null) {
+        element.textContent = text;
+      }
+      if (className) {
+        element.className = className;
+      }
+      parent.appendChild(element);
+      return element;
+    }
+
+    function buildRequestUrl(apiKey) {
+      const api = myApis[apiKey];
+      if (apiKey !== "weather") {
+        return api.url;
+      }
+
+      const coordinates = citySelect.value.split(",");
+      const url = new URL(api.url);
+      url.searchParams.set("latitude", coordinates[0]);
+      url.searchParams.set("longitude", coordinates[1]);
+      url.searchParams.set(
+        "current",
+        "temperature_2m,relative_humidity_2m,wind_speed_10m"
+      );
+      return url.toString();
+    }
+
+    function describeResponse(apiKey, data) {
+      let summary = "";
+      let imageUrl = "";
+      let jsonData = data;
+
+      switch (apiKey) {
+        case "dog":
+          summary = "A random dog image was returned by the API.";
+          imageUrl = data.message;
+          break;
+
+        case "cat":
+          summary = data.fact || "The API did not return a fact.";
+          break;
+
+        case "advice":
+          summary = data.slip && data.slip.advice
+            ? data.slip.advice
+            : "No advice was returned.";
+          break;
+
+        case "pokemon":
+          summary =
+            "Name: " + data.name +
+            "\nID: " + data.id +
+            "\nHeight: " + data.height +
+            "\nWeight: " + data.weight +
+            "\nAbilities: " + data.abilities
+              .map(item => item.ability.name)
+              .join(", ");
+          imageUrl = data.sprites && data.sprites.front_default;
+          break;
+
+        case "weather": {
+          const current = data.current;
+          const units = data.current_units;
+          const cityName = citySelect.options[citySelect.selectedIndex].text;
+          summary =
+            "City: " + cityName +
+            "\nObservation time: " + current.time +
+            "\nTemperature: " + current.temperature_2m +
+            " " + units.temperature_2m +
+            "\nHumidity: " + current.relative_humidity_2m +
+            " " + units.relative_humidity_2m +
+            "\nWind speed: " + current.wind_speed_10m +
+            " " + units.wind_speed_10m +
+            "\nTimezone: " + data.timezone;
+          break;
+        }
+
+        case "post":
+          summary =
+            "Post ID: " + data.id +
+            "\nUser ID: " + data.userId +
+            "\nTitle: " + data.title +
+            "\n\n" + data.body;
+          break;
+
+        case "rickmorty":
+          summary =
+            "Character: " + data.name +
+            "\nStatus: " + data.status +
+            "\nSpecies: " + data.species +
+            "\nGender: " + data.gender +
+            "\nOrigin: " + data.origin.name +
+            "\nCurrent location: " + data.location.name;
+          imageUrl = data.image;
+          break;
+
+        case "earthquakes": {
+          const features = Array.isArray(data.features) ? data.features : [];
+          summary = "Events recorded in the past day: " + features.length;
+
+          const recentEvents = features.slice(0, 5).map((event, index) => {
+            const properties = event.properties;
+            const magnitude = properties.mag === null
+              ? "Magnitude unavailable"
+              : "Magnitude " + properties.mag;
+            const place = properties.place || "Location unavailable";
+            const time = new Date(properties.time).toLocaleString();
+            return (index + 1) + ". " + magnitude + " — " + place + "\n   " + time;
+          });
+
+          if (recentEvents.length) {
+            summary += "\n\nLatest five events:\n" + recentEvents.join("\n");
+          } else {
+            summary += "\nNo events were returned.";
+          }
+
+          jsonData = {
+            type: data.type,
+            metadata: data.metadata,
+            features: features.slice(0, 5)
+          };
+          break;
+        }
+      }
+
+      return { summary, imageUrl, jsonData };
+    }
+
+    async function fetchData(apiKey) {
+      if (!apiKey || !myApis[apiKey]) {
+        output.textContent = "Choose an API first.";
+        return;
+      }
+
+      const api = myApis[apiKey];
+      const requestUrl = buildRequestUrl(apiKey);
+      output.replaceChildren();
+      makeElement("p", "Loading " + api.name + "...", output);
+
+      try {
+        const response = await fetch(requestUrl, {
+          headers: { "Accept": "application/json" }
+        });
+
+        if (!response.ok) {
+          throw new Error("HTTP error " + response.status);
+        }
+
+        const data = await response.json();
+        const result = describeResponse(apiKey, data);
+
+        output.replaceChildren();
+        makeElement("h2", api.name, output);
+        makeElement("p", result.summary, output, "summary");
+
+        if (
+          typeof result.imageUrl === "string" &&
+          result.imageUrl.startsWith("https://")
+        ) {
+          const image = document.createElement("img");
+          image.src = result.imageUrl;
+          image.alt = "Image returned by " + api.name;
+          image.loading = "lazy";
+          output.appendChild(image);
+        }
+
+        const details = document.createElement("details");
+        makeElement("summary", "View JSON response", details);
+        const pre = makeElement(
+          "pre",
+          JSON.stringify(result.jsonData, null, 2),
+          details
+        );
+        pre.setAttribute("aria-label", "Formatted JSON response");
+        output.appendChild(details);
+
+        if (apiKey === "earthquakes") {
+          makeElement(
+            "p",
+            "For readability, the JSON preview shows the first five events; the summary shows the total count.",
+            output,
+            "note"
+          );
+        }
+      } catch (error) {
+        output.replaceChildren();
+        makeElement(
+          "h2",
+          "Could not fetch " + api.name,
+          output
+        );
+        makeElement("p", error.message, output, "summary");
+
+        const link = makeElement("a", "Open this API directly", output);
+        link.href = requestUrl;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+
+        makeElement(
+          "p",
+          "If the direct API works but this page cannot fetch it, the preview may be blocking cross-origin requests (CORS).",
+          output,
+          "note"
+        );
+      }
+    }
+
+    apiSelect.addEventListener("change", () => {
+      const selectedApi = apiSelect.value;
+      cityWrap.hidden = selectedApi !== "weather";
+      if (selectedApi) {
+        fetchData(selectedApi);
+      } else {
+        output.textContent = "Choose an API to load its data.";
+      }
+    });
+
+    citySelect.addEventListener("change", () => {
+      if (apiSelect.value === "weather") {
+        fetchData("weather");
+      }
+    });
+
+    document.getElementById("fetchAgain").addEventListener("click", () => {
+      fetchData(apiSelect.value);
+    });
+  </script>
+</body>
+</html>
