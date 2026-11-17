@@ -5,6 +5,19 @@ on:
     paths:
       - '**.zip'
       - '**/*.zip'
+      - '**/*.mp4'
+      - '**/*.mov'
+      - '**/*.webm'
+      - '**/*.m4v'
+      - '**/*.ogv'
+      - '**/*.mkv'
+      - '**/*.avi'
+      - '**/*.flv'
+      - '**/*.wmv'
+      - '**/*.mpeg'
+      - '**/*.mpg'
+      - '**/*.mts'
+      - '**/*.3gp'
   workflow_dispatch:
 
 permissions:
@@ -23,7 +36,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Unpack ZIPs and register media
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Unpack ZIPs, convert videos, and register media
         run: python3 .github/scripts/import-proof-media.py
 
       - name: Commit extracted files and Proof Hub updates
