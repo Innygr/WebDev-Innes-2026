@@ -93,7 +93,9 @@ jobs:
           python3 -m venv /tmp/proof-hub-venv
           /tmp/proof-hub-venv/bin/pip install --upgrade pip Pillow pillow-avif-plugin pillow-heif rawpy
 
-      - name: Unpack ZIPs, convert media, and register files
+      - name: Unpack ZIPs, move uploads, convert media, and register files
+        env:
+          UPLOAD_BASE_SHA: ${{ github.event.before }}
         run: /tmp/proof-hub-venv/bin/python .github/scripts/import-proof-media.py
 
       - name: Commit extracted files and Proof Hub updates
