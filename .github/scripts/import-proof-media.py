@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import html
 import re
+import subprocess
 import zipfile
 from pathlib import Path, PurePosixPath
 from urllib.parse import quote
