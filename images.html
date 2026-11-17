@@ -2,66 +2,100 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#080d18">
-<meta name="description" content="Video proof and demonstrations from Innes's robotics and embedded-systems projects.">
+<meta name="description" content="Expandable image and video evidence from robotics and embedded-systems projects.">
 <title>Proof Hub | WebDev Innes</title>
 <style>
-:root{color-scheme:dark;--bg:#080d18;--panel:#111b2c;--line:#293d59;--text:#edf5ff;--muted:#9aacc4;--cyan:#55e8ff;--purple:#b39aff}
-*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:80px}body{margin:0;background:radial-gradient(ellipse at 50% -12%,#1b355a 0,transparent 48%),var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--purple);outline-offset:3px}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
-.topbar{position:sticky;top:0;z-index:10;border-bottom:1px solid #293d5988;background:#080d18df;backdrop-filter:blur(15px)}.topbar .wrap{min-height:60px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{font-weight:850;color:var(--text)}.brand span{color:var(--cyan)}nav{display:flex;gap:20px;flex-wrap:wrap}nav a{font-size:.9rem;font-weight:750;color:#c6d8ed}
-header{padding:55px 0 40px}.hero-layout{display:grid;grid-template-columns:1fr .9fr;align-items:center;gap:34px}.eyebrow{color:var(--cyan);font-size:.75rem;font-weight:850;letter-spacing:.2em;text-transform:uppercase}h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.98;letter-spacing:-.06em;margin:10px 0 15px}header p{max-width:590px;color:var(--muted);margin:0;font-size:1.03rem}.hero-image{display:block;width:100%;max-height:250px;object-fit:contain;border:1px solid var(--line);border-radius:18px;background:#0d1524;box-shadow:0 18px 45px #0005}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.button{display:inline-block;padding:10px 15px;border:1px solid var(--line);border-radius:11px;background:#14233a;color:var(--text);font-weight:800}.button.primary{background:var(--cyan);border-color:var(--cyan);color:#06111b}
-main{padding:5px 0 70px}.summary{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 24px}.summary span{padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:#101a2c;color:#b8c9de;font-size:.82rem}.summary strong{color:var(--cyan)}
-.toolbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:16px;border:1px solid var(--line);border-radius:16px;background:#101a2ce8}.filters{display:flex;gap:8px;flex-wrap:wrap}.filter{border:1px solid #344b68;border-radius:999px;background:#0b1422;color:#b7c7dc;padding:8px 13px;font:inherit;font-size:.84rem;font-weight:750;cursor:pointer}.filter[aria-pressed=true]{border-color:var(--cyan);background:#55e8ff18;color:var(--cyan)}.search{width:min(290px,100%);padding:10px 13px;border:1px solid #344b68;border-radius:11px;background:#080f1c;color:var(--text);font:inherit}.result-line{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:18px 2px 12px;color:var(--muted);font-size:.86rem}
-.gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card{overflow:hidden;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,#14233a,#101821);box-shadow:0 14px 35px #0003;transition:transform .2s,border-color .2s}.card:hover{transform:translateY(-3px);border-color:#55e8ff88}.media{position:relative;padding:12px 12px 0}.media video{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;background:#03060b;border:1px solid #293d59;border-radius:12px}.card-body{padding:16px 19px 20px}.card-top{display:flex;justify-content:space-between;align-items:center;gap:12px}.tag{color:var(--cyan);font-size:.7rem;font-weight:850;letter-spacing:.13em;text-transform:uppercase}.index{color:#7286a2;font-size:.75rem;font-weight:800}.card h2{font-size:1.25rem;margin:7px 0 6px}.card p{color:var(--muted);font-size:.92rem;margin:0}.empty{display:none;padding:35px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:16px}.back-top{display:inline-block;margin-top:24px;font-weight:800}
-footer{border-top:1px solid var(--line);padding:26px 0 36px;color:#8093ad;font-size:.88rem}footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-@media(max-width:760px){.hero-layout{grid-template-columns:1fr}.hero-image{max-height:210px;grid-row:1}.gallery{grid-template-columns:1fr}.topbar .wrap{padding:12px 0;align-items:flex-start;flex-direction:column}.topbar nav{gap:15px}}
-@media(max-width:560px){.wrap{width:min(100% - 30px,1120px)}header{padding:36px 0 28px}.toolbar{align-items:stretch}.search{width:100%}.result-line{align-items:flex-start;flex-direction:column}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+:root{color-scheme:dark;--bg:#080d18;--panel:#111c2e;--line:#2b4260;--text:#edf5ff;--muted:#9aacc4;--cyan:#55e8ff;--purple:#b39aff}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:85px}body{margin:0;background:radial-gradient(ellipse at 50% -15%,#1b355a 0,transparent 50%),var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--purple);outline-offset:3px}.wrap{width:min(1080px,calc(100% - 36px));margin:auto}
+.topbar{position:sticky;top:0;z-index:20;border-bottom:1px solid #2b426088;background:#080d18e8;backdrop-filter:blur(16px)}.topbar .wrap{min-height:62px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{color:var(--text);font-weight:900;letter-spacing:.04em}.brand span{color:var(--cyan)}nav{display:flex;gap:20px;flex-wrap:wrap}nav a{font-size:.9rem;font-weight:750;color:#c7d7e9}
+header{padding:58px 0 42px}.hero{display:grid;grid-template-columns:1fr .85fr;align-items:center;gap:34px}.eyebrow{color:var(--cyan);font-size:.75rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase}h1{font-size:clamp(2.8rem,6.5vw,5rem);line-height:.96;letter-spacing:-.065em;margin:12px 0 17px}h1 span{color:var(--purple)}.intro{max-width:600px;color:var(--muted);font-size:1.04rem;margin:0}.hero-art{width:100%;max-height:250px;object-fit:contain;border:1px solid var(--line);border-radius:20px;background:#0d1524;box-shadow:0 20px 55px #0006}.hero-actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:23px}.button{display:inline-flex;align-items:center;padding:10px 15px;border:1px solid var(--line);border-radius:11px;background:#15243a;color:var(--text);font-weight:800}.button.primary{background:var(--cyan);border-color:var(--cyan);color:#06111b}
+main{padding:8px 0 72px}.stats{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:23px}.stats span{padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:#111c2c;color:#b9c9dc;font-size:.82rem}.stats b{color:var(--cyan)}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:15px;border:1px solid var(--line);border-radius:16px;background:#111c2ce8}.filters{display:flex;gap:8px;flex-wrap:wrap}.filter{border:1px solid #344b68;border-radius:999px;background:#0b1422;color:#b7c7dc;padding:8px 13px;font:inherit;font-size:.84rem;font-weight:800;cursor:pointer}.filter[aria-pressed=true]{border-color:var(--cyan);background:#55e8ff18;color:var(--cyan)}.search{width:min(280px,100%);padding:10px 13px;border:1px solid #344b68;border-radius:11px;background:#080f1c;color:var(--text);font:inherit}.result-line{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:18px 2px 13px;color:var(--muted);font-size:.87rem}
+.evidence-list{display:grid;gap:13px}.evidence{overflow:hidden;border:1px solid var(--line);border-radius:17px;background:linear-gradient(135deg,#14243a,#0e1828);box-shadow:0 13px 32px #0003;transition:border-color .2s,transform .2s}.evidence:hover{border-color:#55e8ff88;transform:translateY(-2px)}.evidence[open]{border-color:#55e8ff99;box-shadow:0 16px 38px #0005,0 0 25px #55e8ff0a}.evidence summary{display:flex;align-items:center;gap:15px;padding:17px 19px;cursor:pointer;list-style:none;user-select:none}.evidence summary::-webkit-details-marker{display:none}.file-icon{display:grid;place-items:center;flex:0 0 43px;width:43px;height:43px;border:1px solid #55e8ff38;border-radius:13px;background:#55e8ff12;color:var(--cyan);font-size:1.15rem}.file-name{min-width:0;flex:1}.file-name strong{display:block;font-size:1rem}.file-name small{display:block;margin-top:2px;color:var(--muted);font-size:.8rem}.badge{padding:4px 9px;border:1px solid #344b68;border-radius:999px;color:#b9c9dc;font-size:.7rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase}.chevron{color:var(--cyan);font-size:1.2rem;transition:transform .2s}.evidence[open] .chevron{transform:rotate(180deg)}.evidence-content{padding:0 19px 20px 77px;animation:reveal .22s ease-out}.evidence-content p{margin:0 0 13px;color:var(--muted);font-size:.92rem}.evidence-content img{display:block;max-width:100%;max-height:520px;margin:0 auto;border:1px solid var(--line);border-radius:13px;background:#050a12;object-fit:contain}.evidence-content video{display:block;width:100%;max-height:580px;aspect-ratio:16/9;background:#03060b;border:1px solid var(--line);border-radius:13px;object-fit:contain}.media-actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:12px;font-size:.86rem;font-weight:750}.media-status{min-height:1.4em;margin-top:8px;color:#ffc98a;font-size:.82rem}.empty{display:none;padding:32px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:16px}.note{margin-top:24px;padding:15px 17px;border-left:3px solid var(--purple);border-radius:0 12px 12px 0;background:#b39aff0d;color:var(--muted);font-size:.87rem}.back-top{display:inline-block;margin-top:22px;font-weight:850}
+footer{border-top:1px solid var(--line);padding:25px 0 36px;color:#8093ad;font-size:.88rem}footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@keyframes reveal{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.hero-art{grid-row:1;max-height:210px}.topbar .wrap{align-items:flex-start;flex-direction:column;padding:12px 0}.topbar nav{gap:15px}.evidence-content{padding-left:19px}}
+@media(max-width:560px){.wrap{width:min(100% - 28px,1080px)}header{padding:36px 0 29px}.toolbar{align-items:stretch}.search{width:100%}.result-line{align-items:flex-start;flex-direction:column}.evidence summary{gap:10px;padding:14px}.file-icon{flex-basis:38px;width:38px;height:38px}.badge{display:none}.evidence-content{padding:0 14px 16px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body id="top">
 <div class="topbar"><div class="wrap"><a class="brand" href="robotics.html">ROBOTICS <span>/ PROOF HUB</span></a><nav aria-label="Main navigation"><a href="robotics.html">Robotics Hub</a><a href="index.html">Portfolio</a><a href="Final/Final.html">Combination Lock</a></nav></div></div>
-<header><div class="wrap hero-layout"><div><div class="eyebrow">Recorded project evidence</div><h1>Proof, not just promises.</h1><p>Watch the embedded-systems experiments in action. These recordings document the web server, Bluetooth Low Energy, on-device vision, and LoRa peer-to-peer work.</p><div class="hero-actions"><a class="button primary" href="#demonstrations">Browse demonstrations ↓</a><a class="button" href="robotics.html">Back to Robotics Hub</a></div></div><img class="hero-image" src="videos/SoundStream.png" alt="Sound Stream project artwork"></div></header>
-<main class="wrap" id="demonstrations">
-<div class="summary" aria-label="Gallery summary"><span><strong>04</strong> recorded demonstrations</span><span><strong>03</strong> project categories</span><span>Embedded systems · 2026</span></div>
-<div class="toolbar"><div class="filters" role="group" aria-label="Filter demonstrations"><button class="filter" type="button" data-filter="all" aria-pressed="true">All evidence</button><button class="filter" type="button" data-filter="wireless" aria-pressed="false">Wireless</button><button class="filter" type="button" data-filter="ai" aria-pressed="false">AI & Vision</button><button class="filter" type="button" data-filter="web" aria-pressed="false">Web & Software</button></div><input class="search" id="search" type="search" placeholder="Search the evidence…" aria-label="Search demonstrations"></div>
-<div class="result-line"><span id="count" aria-live="polite">Showing 4 of 4 demonstrations</span><span>Tip: only one video plays at a time.</span></div>
-<div class="gallery" id="gallery">
-<article class="card" data-category="web" data-search="web server browser hosting network web software"><div class="media"><video controls preload="metadata" playsinline><source src="./videos/WebServer.mov.mp4" type="video/mp4">Your browser does not support video playback.</video></div><div class="card-body"><div class="card-top"><span class="tag">Web & Software</span><span class="index">DEMO / 01</span></div><h2>Web Server</h2><p>A demonstration of the embedded web server serving content to a browser over the network.</p></div></article>
-<article class="card" data-category="wireless" data-search="bluetooth low energy ble wireless communication"><div class="media"><video controls preload="metadata" playsinline><source src="./videos/BLE.mp4" type="video/mp4">Your browser does not support video playback.</video></div><div class="card-body"><div class="card-top"><span class="tag">Wireless</span><span class="index">DEMO / 02</span></div><h2>Bluetooth Low Energy</h2><p>Recorded evidence from the BLE communication experiment.</p></div></article>
-<article class="card" data-category="ai" data-search="on device vision model camera machine learning artificial intelligence"><div class="media"><video controls preload="metadata" playsinline><source src="./videos/OnDeviceVisionModel.mp4" type="video/mp4">Your browser does not support video playback.</video></div><div class="card-body"><div class="card-top"><span class="tag">AI & Vision</span><span class="index">DEMO / 03</span></div><h2>On-Device Vision Model</h2><p>A demonstration of the vision-model activity running on-device with a live camera input.</p></div></article>
-<article class="card" data-category="wireless" data-search="lora peer to peer p2p radio wireless communication"><div class="media"><video controls preload="metadata" playsinline><source src="./videos/LoRa_P2P.mp4" type="video/mp4">Your browser does not support video playback.</video></div><div class="card-body"><div class="card-top"><span class="tag">Wireless</span><span class="index">DEMO / 04</span></div><h2>LoRa Peer-to-Peer</h2><p>Recorded evidence from the LoRa P2P wireless communication test.</p></div></article>
+<header><div class="wrap hero"><div><div class="eyebrow">Robotics · Embedded systems · Evidence</div><h1>Proof, <span>unfolded.</span></h1><p class="intro">Every item starts as a clean, named entry. Open one to reveal its image or play its video. Explore the experiments behind the builds.</p><div class="hero-actions"><a class="button primary" href="#evidence">Explore evidence ↓</a><a class="button" href="robotics.html">← Robotics Hub</a></div></div><img class="hero-art" src="./videos/SoundStream.png" alt="Sound Stream project artwork"></div></header>
+<main class="wrap" id="evidence">
+<div class="stats"><span><b>05</b> evidence files</span><span><b>04</b> video demonstrations</span><span>Project archive · 2026</span></div>
+<div class="toolbar"><div class="filters" role="group" aria-label="Filter evidence"><button class="filter" type="button" data-filter="all" aria-pressed="true">Everything</button><button class="filter" type="button" data-filter="image" aria-pressed="false">Images</button><button class="filter" type="button" data-filter="wireless" aria-pressed="false">Wireless</button><button class="filter" type="button" data-filter="ai" aria-pressed="false">AI & Vision</button><button class="filter" type="button" data-filter="web" aria-pressed="false">Web & Software</button></div><input class="search" id="search" type="search" placeholder="Find a file or project…" aria-label="Search evidence"></div>
+<div class="result-line"><span id="count" aria-live="polite">Showing 5 of 5 evidence files</span><span>Click any row to expand it.</span></div>
+<div class="evidence-list" id="gallery">
+<details class="evidence" data-category="image" data-search="sound stream project artwork image">
+<summary><span class="file-icon" aria-hidden="true">▧</span><span class="file-name"><strong>Sound Stream — Project Artwork</strong><small>Image · PNG · Project visual</small></span><span class="badge">Image</span><span class="chevron" aria-hidden="true">⌄</span></summary>
+<div class="evidence-content"><p>Project artwork for the Sound Stream embedded-systems work.</p><img src="./videos/SoundStream.png" alt="Sound Stream project artwork" loading="lazy"><div class="media-actions"><a href="./videos/SoundStream.png" target="_blank" rel="noopener">Open full-size image ↗</a></div></div>
+</details>
+<details class="evidence" data-category="web" data-search="web server browser hosting network web software">
+<summary><span class="file-icon" aria-hidden="true">▶</span><span class="file-name"><strong>Web Server Demonstration</strong><small>Video · MP4 · Web & software</small></span><span class="badge">Video 01</span><span class="chevron" aria-hidden="true">⌄</span></summary>
+<div class="evidence-content"><p>Demonstration of the embedded web server serving content to a browser over the network.</p><video controls playsinline preload="none"><source src="./videos/WebServer.mov.mp4" type="video/mp4">Your browser does not support MP4 playback.</video><div class="media-status" aria-live="polite"></div><div class="media-actions"><a href="./videos/WebServer.mov.mp4" target="_blank" rel="noopener">Open video file directly ↗</a></div></div>
+</details>
+<details class="evidence" data-category="wireless" data-search="bluetooth low energy ble wireless communication">
+<summary><span class="file-icon" aria-hidden="true">▶</span><span class="file-name"><strong>Bluetooth Low Energy (BLE)</strong><small>Video · MP4 · Wireless communication</small></span><span class="badge">Video 02</span><span class="chevron" aria-hidden="true">⌄</span></summary>
+<div class="evidence-content"><p>Recorded evidence from the Bluetooth Low Energy communication experiment.</p><video controls playsinline preload="none"><source src="./videos/BLE.mp4" type="video/mp4">Your browser does not support MP4 playback.</video><div class="media-status" aria-live="polite"></div><div class="media-actions"><a href="./videos/BLE.mp4" target="_blank" rel="noopener">Open video file directly ↗</a></div></div>
+</details>
+<details class="evidence" data-category="ai" data-search="on device vision model camera machine learning artificial intelligence">
+<summary><span class="file-icon" aria-hidden="true">▶</span><span class="file-name"><strong>On-Device Vision Model</strong><small>Video · MP4 · AI & vision</small></span><span class="badge">Video 03</span><span class="chevron" aria-hidden="true">⌄</span></summary>
+<div class="evidence-content"><p>Demonstration of the vision-model activity running on-device with a live camera input.</p><video controls playsinline preload="none"><source src="./videos/OnDeviceVisionModel.mp4" type="video/mp4">Your browser does not support MP4 playback.</video><div class="media-status" aria-live="polite"></div><div class="media-actions"><a href="./videos/OnDeviceVisionModel.mp4" target="_blank" rel="noopener">Open video file directly ↗</a></div></div>
+</details>
+<details class="evidence" data-category="wireless" data-search="lora peer to peer p2p radio wireless communication">
+<summary><span class="file-icon" aria-hidden="true">▶</span><span class="file-name"><strong>LoRa Peer-to-Peer</strong><small>Video · MP4 · Wireless communication</small></span><span class="badge">Video 04</span><span class="chevron" aria-hidden="true">⌄</span></summary>
+<div class="evidence-content"><p>Recorded evidence from the LoRa peer-to-peer wireless communication test.</p><video controls playsinline preload="none"><source src="./videos/LoRa_P2P.mp4" type="video/mp4">Your browser does not support MP4 playback.</video><div class="media-status" aria-live="polite"></div><div class="media-actions"><a href="./videos/LoRa_P2P.mp4" target="_blank" rel="noopener">Open video file directly ↗</a></div></div>
+</details>
 </div>
-<div class="empty" id="empty" role="status">No demonstrations match that search. Try another term or select “All evidence”.</div>
-<a class="back-top" href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false">Back to top ↑</a>
+<div class="empty" id="empty" role="status">Nothing matches that search. Try a different word or choose “Everything”.</div>
+<div class="note">If a video does not play in the browser, use its “Open video file directly” link. That helps distinguish a browser codec issue from a missing file.</div>
+<a class="back-top" href="#top">Back to top ↑</a>
 </main>
-<footer><div class="wrap"><span>WebDev Innes · Robotics Proof Hub</span><span>Project evidence archive · 2026</span></div></footer>
+<footer><div class="wrap"><span>WebDev Innes · Robotics Proof Hub</span><span>Embedded-systems project evidence · 2026</span></div></footer>
 <script>
-const cards=[...document.querySelectorAll(".card")];
-const buttons=[...document.querySelectorAll(".filter")];
+const entries=[...document.querySelectorAll(".evidence")];
+const filters=[...document.querySelectorAll(".filter")];
 const search=document.querySelector("#search");
 const count=document.querySelector("#count");
 const empty=document.querySelector("#empty");
 let activeFilter="all";
-function filterCards(){
+function applyFilters(){
  const query=search.value.trim().toLowerCase();
- let visible=0;
- cards.forEach(card=>{
-  const matchesFilter=activeFilter==="all"||card.dataset.category===activeFilter;
-  const matchesSearch=!query||(card.dataset.search+" "+card.innerText).toLowerCase().includes(query);
-  card.hidden=!(matchesFilter&&matchesSearch);
-  if(!card.hidden)visible++;
+ let shown=0;
+ entries.forEach(entry=>{
+  const matchesFilter=activeFilter==="all"||entry.dataset.category===activeFilter;
+  const matchesSearch=!query||(entry.dataset.search+" "+entry.innerText).toLowerCase().includes(query);
+  entry.hidden=!(matchesFilter&&matchesSearch);
+  if(entry.hidden){entry.open=false;const player=entry.querySelector("video");if(player)player.pause()}else shown++;
  });
- count.textContent="Showing "+visible+" of "+cards.length+" demonstrations";
- empty.style.display=visible?"none":"block";
+ count.textContent="Showing "+shown+" of "+entries.length+" evidence files";
+ empty.style.display=shown?"none":"block";
 }
-buttons.forEach(button=>button.addEventListener("click",()=>{
+filters.forEach(button=>button.addEventListener("click",()=>{
  activeFilter=button.dataset.filter;
- buttons.forEach(item=>item.setAttribute("aria-pressed",String(item===button)));
- filterCards();
+ filters.forEach(item=>item.setAttribute("aria-pressed",String(item===button)));
+ applyFilters();
 }));
-search.addEventListener("input",filterCards);
-document.querySelectorAll("video").forEach(video=>video.addEventListener("play",()=>{
- document.querySelectorAll("video").forEach(other=>{if(other!==video)other.pause()});
-}));
+search.addEventListener("input",applyFilters);
+entries.forEach(entry=>{
+ entry.addEventListener("toggle",()=>{
+  const player=entry.querySelector("video");
+  if(!entry.open){if(player)player.pause();return}
+  entries.forEach(other=>{if(other!==entry){other.open=false;const otherPlayer=other.querySelector("video");if(otherPlayer)otherPlayer.pause()}});
+ });
+ const video=entry.querySelector("video");
+ if(video){
+  video.addEventListener("play",()=>document.querySelectorAll("video").forEach(other=>{if(other!==video)other.pause()}));
+  video.addEventListener("error",()=>{
+   const status=entry.querySelector(".media-status");
+   if(status)status.textContent="This browser could not decode this video. Try the direct file link; the file may need a browser-compatible MP4 encode.";
+  });
+  video.addEventListener("loadedmetadata",()=>{
+   const status=entry.querySelector(".media-status");
+   if(status)status.textContent="Video loaded · "+Math.floor(video.duration/60)+":"+String(Math.floor(video.duration%60)).padStart(2,"0");
+  });
+ }
+});
 </script>
 </body></html>
