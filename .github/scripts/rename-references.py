@@ -8,7 +8,7 @@ from pathlib import Path
 from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[2]
-SKIP_DIRS = {".git", ".github", "node_modules", "__pycache__", ".venv"}
+SKIP_DIRS = {".git", "node_modules", "__pycache__", ".venv"}
 
 
 def fail(message: str) -> None:
