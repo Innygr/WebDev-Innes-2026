@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import html
+import os
 import re
 import subprocess
 import zipfile
@@ -12,7 +13,7 @@ import pillow_heif  # Registers HEIC/HEIF decoding with Pillow.
 import rawpy  # Decodes supported camera RAW formats through LibRaw.
 pillow_heif.register_heif_opener()
 from pathlib import Path, PurePosixPath
-from urllib.parse import quote, unquote
+from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[2]
 PROOF_HUB = ROOT / "images.html"
@@ -95,7 +96,7 @@ def move_uploaded_media(extracted: list[Path]) -> list[Path]:
 
     # Find media files added or changed by the push, without relocating the
     # repository's existing image/video assets on every workflow run.
-    base = subprocess.os.environ.get("UPLOAD_BASE_SHA", "")
+    base = os.environ.get("UPLOAD_BASE_SHA", "")
     if base and set(base) != {"0"}:
         try:
             changed = subprocess.check_output(
