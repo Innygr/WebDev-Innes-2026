@@ -1,0 +1,39 @@
+name: Unpack ZIPs and update Proof Hub
+
+on:
+  push:
+    paths:
+      - '**.zip'
+      - '**/*.zip'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: proof-hub-zip-import
+  cancel-in-progress: false
+
+jobs:
+  import-media:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Unpack ZIPs and register media
+        run: python3 .github/scripts/import-proof-media.py
+
+      - name: Commit extracted files and Proof Hub updates
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "Unpack ZIP uploads and update Proof Hub"
+            git push
+          else
+            echo "Nothing to import."
+          fi
