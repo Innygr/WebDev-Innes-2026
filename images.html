@@ -23,7 +23,7 @@ footer{border-top:1px solid var(--line);padding:25px 0 36px;color:#8093ad;font-s
 <div class="topbar"><div class="wrap"><a class="brand" href="robotics.html">ROBOTICS <span>/ PROOF HUB</span></a><nav aria-label="Main navigation"><a href="robotics.html">Robotics Hub</a><a href="index.html">Portfolio</a><a href="Final/Final.html">Combination Lock</a></nav></div></div>
 <header><div class="wrap hero"><div><div class="eyebrow">Robotics · Embedded systems · Evidence</div><h1>Proof, <span>unfolded.</span></h1><p class="intro">Every item starts as a clean, named entry. Open one to reveal its image or play its video. Explore the experiments behind the builds.</p><div class="hero-actions"><a class="button primary" href="#evidence">Explore evidence ↓</a><a class="button" href="robotics.html">← Robotics Hub</a></div></div><img class="hero-art" src="./videos/SoundStream.png" alt="Sound Stream project artwork"></div></header>
 <main class="wrap" id="evidence">
-<div class="stats"><span><b>05</b> evidence files</span><span><b>04</b> video demonstrations</span><span>Project archive · 2026</span></div>
+<div class="stats"><span><b id="evidence-total">05</b> evidence files</span><span><b id="video-total">04</b> video demonstrations</span><span>Project archive · 2026</span></div>
 <div class="toolbar"><div class="filters" role="group" aria-label="Filter evidence"><button class="filter" type="button" data-filter="all" aria-pressed="true">Everything</button><button class="filter" type="button" data-filter="image" aria-pressed="false">Images</button><button class="filter" type="button" data-filter="wireless" aria-pressed="false">Wireless</button><button class="filter" type="button" data-filter="ai" aria-pressed="false">AI & Vision</button><button class="filter" type="button" data-filter="web" aria-pressed="false">Web & Software</button></div><input class="search" id="search" type="search" placeholder="Find a file or project…" aria-label="Search evidence"></div>
 <div class="result-line"><span id="count" aria-live="polite">Showing 5 of 5 evidence files</span><span>Click any row to expand it.</span></div>
 <div class="evidence-list" id="gallery">
@@ -61,6 +61,8 @@ const filters=[...document.querySelectorAll(".filter")];
 const search=document.querySelector("#search");
 const count=document.querySelector("#count");
 const empty=document.querySelector("#empty");
+const evidenceTotal=document.querySelector("#evidence-total");
+const videoTotal=document.querySelector("#video-total");
 let activeFilter="all";
 function applyFilters(){
  const query=search.value.trim().toLowerCase();
@@ -72,6 +74,8 @@ function applyFilters(){
   if(entry.hidden){entry.open=false;const player=entry.querySelector("video");if(player)player.pause()}else shown++;
  });
  count.textContent="Showing "+shown+" of "+entries.length+" evidence files";
+ evidenceTotal.textContent=String(entries.length).padStart(2,"0");
+ videoTotal.textContent=String(entries.filter(entry=>entry.querySelector("video")).length).padStart(2,"0");
  empty.style.display=shown?"none":"block";
 }
 filters.forEach(button=>button.addEventListener("click",()=>{
