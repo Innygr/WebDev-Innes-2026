@@ -14,7 +14,7 @@ PROOF_HUB = ROOT / "images.html"
 START = "<!-- AUTO-PROOF-GALLERY:START -->"
 END = "<!-- AUTO-PROOF-GALLERY:END -->"
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".avif", ".svg", ".bmp"}
-VIDEO_EXTS = {".mp4", ".webm", ".mov", ".m4v", ".ogv"}
+VIDEO_EXTS = {".mp4", ".webm", ".mov", ".m4v", ".ogv", ".mkv", ".avi", ".flv", ".wmv", ".mpeg", ".mpg", ".mts", ".3gp"}
 SKIP_DIRS = {".git", ".github", "__pycache__"}
 MAX_MEMBER_BYTES = 250 * 1024 * 1024
 MAX_TOTAL_BYTES = 1024 * 1024 * 1024
@@ -80,6 +80,37 @@ def unpack_all_zips() -> list[Path]:
     return extracted_media
 
 
+def convert_videos() -> list[Path]:
+    """Create browser-friendly, silent H.264 MP4 copies beside source videos."""
+    converted: list[Path] = []
+    sources = sorted(
+        p for p in ROOT.rglob("*")
+        if p.is_file()
+        and p.suffix.lower() in VIDEO_EXTS
+        and not any(part in SKIP_DIRS for part in p.relative_to(ROOT).parts)
+        and not p.stem.lower().endswith("-web")
+    )
+    for source in sources:
+        target = source.with_name(source.stem + "-web.mp4")
+        temporary = target.with_name(target.stem + ".tmp.mp4")
+        command = [
+            "ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
+            "-i", str(source), "-map", "0:v:0", "-an",
+            "-vf", "scale=w='min(1920,iw)':h='min(1080,ih)':force_original_aspect_ratio=decrease:force_divisible_by=2",
+            "-c:v", "libx264", "-preset", "medium", "-crf", "21",
+            "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(temporary),
+        ]
+        try:
+            subprocess.run(command, check=True)
+            temporary.replace(target)
+            converted.append(target)
+            print(f"Converted (audio removed): {target.relative_to(ROOT)}")
+        except (subprocess.CalledProcessError, OSError) as exc:
+            temporary.unlink(missing_ok=True)
+            print(f"ERROR: could not convert {source.relative_to(ROOT)}: {exc}")
+    return converted
+
+
 def display_name(path: Path) -> str:
     # Strip the extension and turn common filename separators into readable spaces.
     return re.sub(r"\s+", " ", re.sub(r"[_-]+", " ", path.stem)).strip().title() or path.name
@@ -92,7 +123,7 @@ def make_card(path: Path) -> str:
     safe_url = html.escape(url, quote=True)
     ext = path.suffix.lower()
     if ext in VIDEO_EXTS:
-        kind, icon, label = "video", "▶", "Video"
+        kind, icon, label = "video", "▶", "Muted MP4"
         media = (
             f'<video controls playsinline preload="none"><source src="./{safe_url}" '
             f'type="{ "video/webm" if ext == ".webm" else "video/ogg" if ext == ".ogv" else "video/mp4" }">'
@@ -105,8 +136,8 @@ def make_card(path: Path) -> str:
         action = f'<a href="./{safe_url}" target="_blank" rel="noopener">Open full-size image ↗</a>'
     search = html.escape((title + " " + path.name).lower(), quote=True)
     return f"""<details class="evidence auto-evidence" data-category="{kind}" data-search="{search}">
-<summary><span class="file-icon" aria-hidden="true">{icon}</span><span class="file-name"><strong>{title}</strong><small>{label} · {ext[1:].upper()} · Auto-added from ZIP</small></span><span class="badge">{label}</span><span class="chevron" aria-hidden="true">⌄</span></summary>
-<div class="evidence-content"><p>Automatically added from the extracted file <code>{html.escape(path.name)}</code>.</p>{media}<div class="media-status" aria-live="polite"></div><div class="media-actions">{action}</div></div>
+<summary><span class="file-icon" aria-hidden="true">{icon}</span><span class="file-name"><strong>{title}</strong><small>{label} · H.264 · Audio removed</small></span><span class="badge">{label}</span><span class="chevron" aria-hidden="true">⌄</span></summary>
+<div class="evidence-content"><p>Optimized for browser playback; original preserved. Source file <code>{html.escape(path.name)}</code>.</p>{media}<div class="media-status" aria-live="polite"></div><div class="media-actions">{action}</div></div>
 </details>"""
 
 
@@ -137,4 +168,6 @@ def update_proof_hub(files: list[Path]) -> None:
 
 if __name__ == "__main__":
     media = unpack_all_zips()
-    update_proof_hub(media)
+    converted = convert_videos()
+    images = [p for p in media if p.suffix.lower() in IMAGE_EXTS]
+    update_proof_hub(images + converted)
