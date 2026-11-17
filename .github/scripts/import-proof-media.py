@@ -124,6 +124,7 @@ def make_card(path: Path) -> str:
     ext = path.suffix.lower()
     if ext in VIDEO_EXTS:
         kind, icon, label = "video", "▶", "Muted MP4"
+        detail = "H.264 · Audio removed"
         media = (
             f'<video controls playsinline preload="none"><source src="./{safe_url}" '
             f'type="{ "video/webm" if ext == ".webm" else "video/ogg" if ext == ".ogv" else "video/mp4" }">'
@@ -132,11 +133,12 @@ def make_card(path: Path) -> str:
         action = f'<a href="./{safe_url}" target="_blank" rel="noopener">Open video file directly ↗</a>'
     else:
         kind, icon, label = "image", "▧", "Image"
+        detail = f"{ext[1:].upper()} · Auto-added from ZIP"
         media = f'<img src="./{safe_url}" alt="{title}" loading="lazy">'
         action = f'<a href="./{safe_url}" target="_blank" rel="noopener">Open full-size image ↗</a>'
     search = html.escape((title + " " + path.name).lower(), quote=True)
     return f"""<details class="evidence auto-evidence" data-category="{kind}" data-search="{search}">
-<summary><span class="file-icon" aria-hidden="true">{icon}</span><span class="file-name"><strong>{title}</strong><small>{label} · H.264 · Audio removed</small></span><span class="badge">{label}</span><span class="chevron" aria-hidden="true">⌄</span></summary>
+<summary><span class="file-icon" aria-hidden="true">{icon}</span><span class="file-name"><strong>{title}</strong><small>{label} · {detail}</small></span><span class="badge">{label}</span><span class="chevron" aria-hidden="true">⌄</span></summary>
 <div class="evidence-content"><p>Optimized for browser playback; original preserved. Source file <code>{html.escape(path.name)}</code>.</p>{media}<div class="media-status" aria-live="polite"></div><div class="media-actions">{action}</div></div>
 </details>"""
 
