@@ -6,6 +6,7 @@ import html
 import re
 import subprocess
 import zipfile
+from PIL import Image, ImageOps, UnidentifiedImageError
 from pathlib import Path, PurePosixPath
 from urllib.parse import quote
 
@@ -13,7 +14,8 @@ ROOT = Path(__file__).resolve().parents[2]
 PROOF_HUB = ROOT / "images.html"
 START = "<!-- AUTO-PROOF-GALLERY:START -->"
 END = "<!-- AUTO-PROOF-GALLERY:END -->"
-IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".avif", ".svg", ".bmp"}
+IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".avif", ".svg", ".bmp", ".tif", ".tiff"}
+RASTER_IMAGE_EXTS = IMAGE_EXTS - {".svg"}
 VIDEO_EXTS = {".mp4", ".webm", ".mov", ".m4v", ".ogv", ".mkv", ".avi", ".flv", ".wmv", ".mpeg", ".mpg", ".mts", ".3gp"}
 SKIP_DIRS = {".git", ".github", "__pycache__"}
 MAX_MEMBER_BYTES = 250 * 1024 * 1024
@@ -111,6 +113,54 @@ def convert_videos() -> list[Path]:
     return converted
 
 
+
+def convert_images() -> list[Path]:
+    """Create broadly compatible WebP copies; keep SVGs and originals untouched."""
+    converted: list[Path] = []
+    sources = sorted(
+        p for p in ROOT.rglob("*")
+        if p.is_file()
+        and p.suffix.lower() in RASTER_IMAGE_EXTS
+        and not any(part in SKIP_DIRS for part in p.relative_to(ROOT).parts)
+        and not p.stem.lower().endswith("-web")
+    )
+    for source in sources:
+        target = source.with_name(source.stem + "-web.webp")
+        temporary = target.with_name(target.stem + ".tmp.webp")
+        try:
+            with Image.open(source) as original:
+                frames = []
+                durations = []
+                loop = original.info.get("loop", 0)
+                animated = getattr(original, "is_animated", False)
+                frame_count = getattr(original, "n_frames", 1)
+                for index in range(frame_count):
+                    original.seek(index)
+                    frame = ImageOps.exif_transpose(original.copy())
+                    frame.thumbnail((2560, 2560), Image.Resampling.LANCZOS)
+                    has_alpha = "A" in frame.getbands() or "transparency" in frame.info
+                    frames.append(frame.convert("RGBA" if has_alpha else "RGB"))
+                    durations.append(original.info.get("duration", 100))
+                options = {"format": "WEBP", "quality": 86, "method": 6}
+                if animated and len(frames) > 1:
+                    options.update({
+                        "save_all": True,
+                        "append_images": frames[1:],
+                        "duration": durations,
+                        "loop": loop,
+                    })
+                frames[0].save(temporary, **options)
+                for frame in frames:
+                    frame.close()
+            temporary.replace(target)
+            converted.append(target)
+            print(f"Converted image to WebP: {target.relative_to(ROOT)}")
+        except (OSError, ValueError, UnidentifiedImageError) as exc:
+            temporary.unlink(missing_ok=True)
+            print(f"ERROR: could not convert image {source.relative_to(ROOT)}: {exc}")
+    return converted
+
+
 def display_name(path: Path) -> str:
     # Strip the extension and turn common filename separators into readable spaces.
     return re.sub(r"\s+", " ", re.sub(r"[_-]+", " ", path.stem)).strip().title() or path.name
@@ -133,7 +183,7 @@ def make_card(path: Path) -> str:
         action = f'<a href="./{safe_url}" target="_blank" rel="noopener">Open video file directly ↗</a>'
     else:
         kind, icon, label = "image", "▧", "Image"
-        detail = f"{ext[1:].upper()} · Auto-added from ZIP"
+        detail = "WebP · Optimized for web" if ext == ".webp" and path.stem.lower().endswith("-web") else f"{ext[1:].upper()} · Vector / source image"
         media = f'<img src="./{safe_url}" alt="{title}" loading="lazy">'
         action = f'<a href="./{safe_url}" target="_blank" rel="noopener">Open full-size image ↗</a>'
     search = html.escape((title + " " + path.name).lower(), quote=True)
@@ -170,6 +220,8 @@ def update_proof_hub(files: list[Path]) -> None:
 
 if __name__ == "__main__":
     media = unpack_all_zips()
-    converted = convert_videos()
-    images = [p for p in media if p.suffix.lower() in IMAGE_EXTS]
-    update_proof_hub(images + converted)
+    converted_videos = convert_videos()
+    converted_images = convert_images()
+    # SVG stays vector; raster formats use optimized WebP copies.
+    vector_images = [p for p in media if p.suffix.lower() == ".svg"]
+    update_proof_hub(vector_images + converted_images + converted_videos)
