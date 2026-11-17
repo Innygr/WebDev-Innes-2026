@@ -28,6 +28,46 @@ on:
       - '**/*.bmp'
       - '**/*.tif'
       - '**/*.tiff'
+      - '**/*.heic'
+      - '**/*.heif'
+      - '**/*.3fr'
+      - '**/*.ari'
+      - '**/*.arw'
+      - '**/*.bay'
+      - '**/*.cap'
+      - '**/*.cr2'
+      - '**/*.cr3'
+      - '**/*.dcs'
+      - '**/*.dcr'
+      - '**/*.dng'
+      - '**/*.drf'
+      - '**/*.eip'
+      - '**/*.erf'
+      - '**/*.fff'
+      - '**/*.gpr'
+      - '**/*.iiq'
+      - '**/*.k25'
+      - '**/*.kdc'
+      - '**/*.mdc'
+      - '**/*.mef'
+      - '**/*.mos'
+      - '**/*.mrw'
+      - '**/*.nef'
+      - '**/*.nrw'
+      - '**/*.orf'
+      - '**/*.pef'
+      - '**/*.ptx'
+      - '**/*.pxn'
+      - '**/*.r3d'
+      - '**/*.raf'
+      - '**/*.raw'
+      - '**/*.rwl'
+      - '**/*.rw2'
+      - '**/*.rwz'
+      - '**/*.sr2'
+      - '**/*.srf'
+      - '**/*.srw'
+      - '**/*.x3f'
   workflow_dispatch:
 
 permissions:
@@ -51,7 +91,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ffmpeg python3-venv
           python3 -m venv /tmp/proof-hub-venv
-          /tmp/proof-hub-venv/bin/pip install --upgrade pip Pillow pillow-avif-plugin
+          /tmp/proof-hub-venv/bin/pip install --upgrade pip Pillow pillow-avif-plugin pillow-heif rawpy
 
       - name: Unpack ZIPs, convert media, and register files
         run: /tmp/proof-hub-venv/bin/python .github/scripts/import-proof-media.py
