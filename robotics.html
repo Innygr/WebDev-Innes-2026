@@ -1,157 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Crystal</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #050508;
-      color: white;
-      font-family: system-ui, sans-serif;
-    }
-
-    #scene {
-      position: fixed;
-      inset: 0;
-    }
-
-    .videos {
-      position: fixed;
-      left: 24px;
-      bottom: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      z-index: 10;
-    }
-
-    .videos a {
-      color: #d9eaff;
-      text-decoration: none;
-      font-size: 14px;
-      opacity: 0.8;
-      transition: opacity 0.2s;
-    }
-
-    .videos a:hover {
-      opacity: 1;
-      text-decoration: underline;
-    }
-  </style>
-</head>
-
-<body>
-  <div id="scene"></div>
-
-  <!-- Replace these paths with the videos in your repository. -->
-  <nav class="videos"> 
-    <a href="images.html">All the proof of completion</a>
-    <a href="./Final/Final.html">Final Project Sub-Page</a>
-    <a href="webmcu-ai-Innes.html">WebMCU AI</a>
-  </nav>
-  
-
-  <script type="module">
-    import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
-
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x050508);
-
-    const camera = new THREE.PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      100
-    );
-    camera.position.set(0, 0, 5);
-
-    const renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      alpha: false
-    });
-
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-
-    document.querySelector("#scene").appendChild(renderer.domElement);
-
-    // Crystal geometry
-    const geometry = new THREE.IcosahedronGeometry(1.35, 1);
-
-    const material = new THREE.MeshPhysicalMaterial({
-      color: 0x78bfff,
-      roughness: 0.08,
-      metalness: 0.05,
-      transmission: 0.35,
-      thickness: 1.2,
-      transparent: true,
-      opacity: 0.88,
-      flatShading: true
-    });
-
-    const crystal = new THREE.Mesh(geometry, material);
-    scene.add(crystal);
-
-    // Subtle inner crystal
-    const innerGeometry = new THREE.IcosahedronGeometry(0.95, 1);
-    const innerMaterial = new THREE.MeshBasicMaterial({
-      color: 0x8ed8ff,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.18
-    });
-
-    const innerCrystal = new THREE.Mesh(innerGeometry, innerMaterial);
-    scene.add(innerCrystal);
-
-    // Lighting
-    scene.add(new THREE.AmbientLight(0x6688aa, 1.5));
-
-    const keyLight = new THREE.PointLight(0xffffff, 80, 20);
-    keyLight.position.set(3, 4, 5);
-    scene.add(keyLight);
-
-    const blueLight = new THREE.PointLight(0x3388ff, 50, 15);
-    blueLight.position.set(-4, -2, 3);
-    scene.add(blueLight);
-
-    const purpleLight = new THREE.PointLight(0x8844ff, 35, 15);
-    purpleLight.position.set(2, -4, -3);
-    scene.add(purpleLight);
-
-    // Non-interactive animation
-    function animate() {
-      requestAnimationFrame(animate);
-
-      crystal.rotation.x += 0.003;
-      crystal.rotation.y += 0.006;
-
-      innerCrystal.rotation.x -= 0.002;
-      innerCrystal.rotation.y -= 0.004;
-
-      renderer.render(scene, camera);
-    }
-
-    animate();
-
-    window.addEventListener("resize", () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    });
-  </script>
-</body>
-</html>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#070b16">
+<meta name="description" content="Robotics project hub: explore embedded systems builds, project evidence, and the combination lock.">
+<title>Robotics Hub | WebDev Innes</title>
+<style>
+:root{color-scheme:dark;--bg:#070b16;--panel:#101a2d;--line:#263b5b;--text:#edf5ff;--muted:#9aacc4;--cyan:#55e8ff;--purple:#b39aff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,sans-serif}
+#scene{position:fixed;inset:0;z-index:0;pointer-events:none}#scene canvas{width:100%;height:100%;display:block}
+body:before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#070b16ee 0%,#070b1699 48%,#070b1644 100%),linear-gradient(0deg,#070b16 0%,transparent 45%)}
+main,header,nav,footer{position:relative;z-index:2}.wrap{width:min(1080px,calc(100% - 36px));margin:auto}
+nav{border-bottom:1px solid #263b5b88;background:#070b16aa;backdrop-filter:blur(14px)}nav .wrap{display:flex;gap:20px;align-items:center;flex-wrap:wrap;padding:14px 0}nav a{color:var(--cyan);font-weight:700;text-decoration:none}nav a:hover{text-decoration:underline}
+.hero{min-height:66vh;display:flex;align-items:center;padding:72px 0 50px}.hero-copy{max-width:650px}.eyebrow{color:var(--cyan);font-size:.78rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase}.hero h1{font-size:clamp(2.8rem,8vw,5.8rem);line-height:.98;letter-spacing:-.06em;margin:10px 0}.hero h1 span{color:var(--purple)}.hero p{color:var(--muted);font-size:1.08rem;max-width:590px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}.button{display:inline-block;padding:11px 17px;border:1px solid var(--cyan);border-radius:12px;background:#55e8ff18;color:var(--text);text-decoration:none;font-weight:750}.button.primary{background:var(--cyan);color:#07111c}.button:hover{transform:translateY(-2px)}
+section{padding:26px 0 55px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:18px}.section-head h2{margin:0;font-size:1.65rem}.section-head p{margin:0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px}.card{padding:22px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,#14233bdc,#0d1729ed);box-shadow:0 16px 40px #0004;backdrop-filter:blur(10px);transition:transform .2s,border-color .2s}.card:hover{transform:translateY(-4px);border-color:#55e8ff99}.tag{color:var(--cyan);font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.card h3{margin:9px 0 6px}.card p{color:var(--muted);margin:0 0 16px}.card a{color:var(--cyan);font-weight:750;text-decoration:none}.card a:hover{text-decoration:underline}
+footer{border-top:1px solid var(--line);padding:25px 0 35px;color:var(--muted);font-size:.9rem}
+@media(max-width:600px){.hero{min-height:58vh;padding:55px 0 30px}.section-head{display:block}.section-head p{margin-top:5px}body:before{background:linear-gradient(90deg,#070b16ee,#070b16aa),linear-gradient(0deg,#070b16,transparent 65%)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+</style></head>
+<body><div id="scene" aria-hidden="true"></div>
+<nav aria-label="Robotics navigation"><div class="wrap"><a href="index.html">← Portfolio</a><a href="#projects">Projects</a><a href="images.html">Proof Hub</a><a href="Final/Final.html">Combination Lock</a><a href="webmcu-ai-Innes.html">WebMCU AI</a></div></nav>
+<header class="hero"><div class="wrap hero-copy"><div class="eyebrow">Hardware • Code • Experiments</div><h1>Robotics <span>Hub</span></h1><p>A central place for my embedded-systems projects, experiments, and build evidence. Explore the work behind the hardware—not just the finished result.</p><div class="actions"><a class="button primary" href="images.html">Explore project evidence ↗</a><a class="button" href="Final/Final.html">View final project</a></div></div></header>
+<main class="wrap"><section id="projects"><div class="section-head"><h2>Project areas</h2><p>Choose a project to explore</p></div><div class="grid">
+<article class="card"><div class="tag">01 / Evidence</div><h3>Proof Hub</h3><p>Videos documenting the web server, BLE, on-device vision, and LoRa experiments.</p><a href="images.html">Browse evidence →</a></article>
+<article class="card"><div class="tag">02 / Final build</div><h3>Combination Lock</h3><p>A physical lock concept built around a joystick, OLED, XIAO ESP32-S3, servos, and audio feedback.</p><a href="Final/Final.html">Open project page →</a></article>
+<article class="card"><div class="tag">03 / AI & vision</div><h3>WebMCU AI</h3><p>Notes and setup information for an on-device vision-model activity.</p><a href="webmcu-ai-Innes.html">Explore WebMCU AI →</a></article>
+</div></section></main>
+<footer><div class="wrap">WebDev Innes • Robotics Hub • 2026</div></footer>
+<script type="module">
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
+const host=document.querySelector("#scene"),scene=new THREE.Scene();scene.background=new THREE.Color(0x070b16);
+const camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,.1,100);camera.position.set(0,0,5);
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;host.appendChild(renderer.domElement);
+const group=new THREE.Group();group.position.set(innerWidth<650?1.25:2.1,.05,0);scene.add(group);
+const crystal=new THREE.Mesh(new THREE.IcosahedronGeometry(1.45,1),new THREE.MeshPhysicalMaterial({color:0x55bfff,metalness:.12,roughness:.12,transmission:.28,thickness:1.4,transparent:true,opacity:.8,flatShading:true}));group.add(crystal);
+const core=new THREE.Mesh(new THREE.IcosahedronGeometry(.95,1),new THREE.MeshBasicMaterial({color:0x9bdfff,wireframe:true,transparent:true,opacity:.2}));group.add(core);
+scene.add(new THREE.AmbientLight(0x7899bb,1.4));const l1=new THREE.PointLight(0x55caff,65,18);l1.position.set(3,3,4);scene.add(l1);const l2=new THREE.PointLight(0x8a55ff,45,18);l2.position.set(-3,-2,2);scene.add(l2);
+let pointerX=0,pointerY=0;addEventListener("pointermove",e=>{pointerX=(e.clientX/innerWidth-.5)*.35;pointerY=(e.clientY/innerHeight-.5)*.25});
+function resize(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);group.position.x=innerWidth<650?1.25:2.1}addEventListener("resize",resize);
+const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function animate(){requestAnimationFrame(animate);if(!reduced){crystal.rotation.y+=.003;crystal.rotation.x+=.0015;core.rotation.y-=.002;group.rotation.y+=(pointerX-group.rotation.y)*.025;group.rotation.x+=(pointerY-group.rotation.x)*.025}renderer.render(scene,camera)}animate();
+</script></body></html>
