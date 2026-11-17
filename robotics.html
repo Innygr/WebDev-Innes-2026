@@ -1,45 +1,71 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#070b16">
-<meta name="description" content="Robotics project hub: explore embedded systems builds, project evidence, and the combination lock.">
+<meta name="description" content="Explore Innes's robotics and embedded-systems projects: Sound Stream, a combination lock, and on-device AI vision.">
 <title>Robotics Hub | WebDev Innes</title>
 <style>
-:root{color-scheme:dark;--bg:#070b16;--panel:#101a2d;--line:#263b5b;--text:#edf5ff;--muted:#9aacc4;--cyan:#55e8ff;--purple:#b39aff}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,sans-serif}
-#scene{position:fixed;inset:0;z-index:0;pointer-events:none}#scene canvas{width:100%;height:100%;display:block}
-body:before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#070b16ee 0%,#070b1699 48%,#070b1644 100%),linear-gradient(0deg,#070b16 0%,transparent 45%)}
-main,header,nav,footer{position:relative;z-index:2}.wrap{width:min(1080px,calc(100% - 36px));margin:auto}
-nav{border-bottom:1px solid #263b5b88;background:#070b16aa;backdrop-filter:blur(14px)}nav .wrap{display:flex;gap:20px;align-items:center;flex-wrap:wrap;padding:14px 0}nav a{color:var(--cyan);font-weight:700;text-decoration:none}nav a:hover{text-decoration:underline}
-.hero{min-height:66vh;display:flex;align-items:center;padding:72px 0 50px}.hero-copy{max-width:650px}.eyebrow{color:var(--cyan);font-size:.78rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase}.hero h1{font-size:clamp(2.8rem,8vw,5.8rem);line-height:.98;letter-spacing:-.06em;margin:10px 0}.hero h1 span{color:var(--purple)}.hero p{color:var(--muted);font-size:1.08rem;max-width:590px}
-.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}.button{display:inline-block;padding:11px 17px;border:1px solid var(--cyan);border-radius:12px;background:#55e8ff18;color:var(--text);text-decoration:none;font-weight:750}.button.primary{background:var(--cyan);color:#07111c}.button:hover{transform:translateY(-2px)}
-section{padding:26px 0 55px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:18px}.section-head h2{margin:0;font-size:1.65rem}.section-head p{margin:0;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px}.card{padding:22px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,#14233bdc,#0d1729ed);box-shadow:0 16px 40px #0004;backdrop-filter:blur(10px);transition:transform .2s,border-color .2s}.card:hover{transform:translateY(-4px);border-color:#55e8ff99}.tag{color:var(--cyan);font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.card h3{margin:9px 0 6px}.card p{color:var(--muted);margin:0 0 16px}.card a{color:var(--cyan);font-weight:750;text-decoration:none}.card a:hover{text-decoration:underline}
-footer{border-top:1px solid var(--line);padding:25px 0 35px;color:var(--muted);font-size:.9rem}
-@media(max-width:600px){.hero{min-height:58vh;padding:55px 0 30px}.section-head{display:block}.section-head p{margin-top:5px}body:before{background:linear-gradient(90deg,#070b16ee,#070b16aa),linear-gradient(0deg,#070b16,transparent 65%)}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
-</style></head>
-<body><div id="scene" aria-hidden="true"></div>
-<nav aria-label="Robotics navigation"><div class="wrap"><a href="index.html">← Portfolio</a><a href="#projects">Projects</a><a href="images.html">Proof Hub</a><a href="Final/Final.html">Combination Lock</a><a href="webmcu-ai-Innes.html">WebMCU AI</a></div></nav>
-<header class="hero"><div class="wrap hero-copy"><div class="eyebrow">Hardware • Code • Experiments</div><h1>Robotics <span>Hub</span></h1><p>A central place for my embedded-systems projects, experiments, and build evidence. Explore the work behind the hardware—not just the finished result.</p><div class="actions"><a class="button primary" href="images.html">Explore project evidence ↗</a><a class="button" href="Final/Final.html">View final project</a></div></div></header>
-<main class="wrap"><section id="projects"><div class="section-head"><h2>Project areas</h2><p>Choose a project to explore</p></div><div class="grid">
-<article class="card"><div class="tag">01 / Evidence</div><h3>Proof Hub</h3><p>Videos documenting the web server, BLE, on-device vision, and LoRa experiments.</p><a href="images.html">Browse evidence →</a></article>
-<article class="card"><div class="tag">02 / Final build</div><h3>Combination Lock</h3><p>A physical lock concept built around a joystick, OLED, XIAO ESP32-S3, servos, and audio feedback.</p><a href="Final/Final.html">Open project page →</a></article>
-<article class="card"><div class="tag">03 / AI & vision</div><h3>WebMCU AI</h3><p>Notes and setup information for an on-device vision-model activity.</p><a href="webmcu-ai-Innes.html">Explore WebMCU AI →</a></article>
-</div></section></main>
-<footer><div class="wrap">WebDev Innes • Robotics Hub • 2026</div></footer>
+:root{color-scheme:dark;--bg:#070b16;--panel:#101a2c;--panel2:#14233a;--line:#2a405e;--text:#edf5ff;--muted:#9aacc4;--cyan:#55e8ff;--purple:#b39aff;--green:#8ef0c0}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:80px}body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}a:focus-visible{outline:3px solid var(--purple);outline-offset:4px}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+#scene{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.9}#scene canvas{width:100%;height:100%;display:block}
+body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,#070b16f5 0%,#070b16dd 42%,#070b1680 100%),linear-gradient(0deg,#070b16 0%,transparent 55%)}
+.skip{position:absolute;left:-999px;top:8px;padding:10px 14px;background:var(--cyan);color:#06111c;z-index:20}.skip:focus{left:10px}
+.topbar{position:sticky;top:0;z-index:10;border-bottom:1px solid #2a405e99;background:#070b16d9;backdrop-filter:blur(16px)}.topbar .wrap{min-height:62px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{font-weight:850;letter-spacing:.02em;color:var(--text)}.brand span{color:var(--cyan)}nav{display:flex;gap:22px;flex-wrap:wrap}nav a{font-size:.9rem;font-weight:700;color:#c6d8ed}
+.hero{min-height:590px;display:flex;align-items:center;padding:90px 0 75px}.hero-copy{max-width:700px}.eyebrow{color:var(--cyan);font-size:.76rem;font-weight:850;letter-spacing:.2em;text-transform:uppercase}.hero h1{font-size:clamp(3.2rem,8vw,6.3rem);line-height:.93;letter-spacing:-.07em;margin:14px 0 22px}.hero h1 span{color:var(--purple)}.hero-copy>p{max-width:610px;color:#b4c5dc;font-size:1.12rem;margin:0}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.button{display:inline-flex;align-items:center;gap:9px;padding:12px 18px;border:1px solid var(--line);border-radius:12px;background:#14233ad9;color:var(--text);font-weight:800;transition:transform .2s,border-color .2s}.button.primary{background:var(--cyan);border-color:var(--cyan);color:#07111c}.button:hover{transform:translateY(-2px);text-decoration:none;border-color:var(--cyan)}
+.hero-note{display:flex;align-items:center;gap:10px;margin-top:34px;color:var(--muted);font-size:.85rem}.pulse{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 14px #8ef0c0}
+section{padding:34px 0 64px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:22px}.section-head h2{font-size:1.8rem;letter-spacing:-.04em;margin:0}.section-head p{color:var(--muted);margin:0}.project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.project-card{position:relative;display:flex;flex-direction:column;min-height:280px;padding:24px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#172943ed,#0d1728ed);box-shadow:0 18px 45px #0004;backdrop-filter:blur(12px);transition:transform .22s,border-color .22s,box-shadow .22s}.project-card:hover{transform:translateY(-5px);border-color:#55e8ff99;box-shadow:0 22px 50px #0006,0 0 28px #55e8ff0d}.number{font-size:.72rem;font-weight:850;letter-spacing:.15em;color:var(--cyan)}.icon{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;margin:16px 0 12px;background:#55e8ff12;border:1px solid #55e8ff30;font-size:1.35rem}.project-card h3{font-size:1.28rem;margin:0 0 8px}.project-card p{color:var(--muted);margin:0 0 20px;font-size:.94rem}.project-card .card-link{margin-top:auto;font-weight:850}.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 18px}.chip{font-size:.72rem;color:#c4d4e8;border:1px solid #344b68;border-radius:999px;padding:4px 9px;background:#09132288}
+.feature-band{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin-top:4px}.feature{padding:24px;border:1px solid var(--line);border-radius:18px;background:#101a2ce8}.feature h3{margin:0 0 7px}.feature p{margin:0;color:var(--muted)}.feature a{display:inline-block;margin-top:15px;font-weight:800}.quick-links{display:flex;flex-direction:column;gap:10px}.quick-links a{padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#101a2ce8;font-weight:750}.quick-links a:hover{border-color:var(--cyan);text-decoration:none}
+footer{border-top:1px solid var(--line);padding:26px 0 36px;color:#8093ad;font-size:.88rem}footer .wrap{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+@media(max-width:850px){.project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{min-height:540px}.feature-band{grid-template-columns:1fr}}
+@media(max-width:580px){.wrap{width:min(100% - 30px,1120px)}.topbar .wrap{align-items:flex-start;flex-direction:column;padding:12px 0}.topbar nav{gap:15px}.hero{min-height:510px;padding:70px 0 55px}.hero h1{font-size:clamp(3rem,16vw,4.7rem)}.project-grid{grid-template-columns:1fr}.section-head{display:block}.section-head p{margin-top:5px}section{padding:25px 0 48px}body:after{background:linear-gradient(90deg,#070b16ed,#070b16c9),linear-gradient(0deg,#070b16,transparent 65%)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a><div id="scene" aria-hidden="true"></div>
+<div class="topbar"><div class="wrap"><a class="brand" href="index.html">WEBDEV <span>INNES</span> / ROBOTICS</a><nav aria-label="Main navigation"><a href="index.html">Portfolio</a><a href="#projects">Projects</a><a href="images.html">Proof Hub</a></nav></div></div>
+<header class="hero"><div class="wrap hero-copy"><div class="eyebrow">Embedded systems · Hardware · Software</div><h1>Robotics<br><span>Hub.</span></h1><p>A closer look at the builds, experiments, and ideas behind my robotics work. Explore the Sound Stream experiments, the combination-lock prototype, and on-device computer vision.</p><div class="actions"><a class="button primary" href="#projects">Explore projects <span aria-hidden="true">↓</span></a><a class="button" href="images.html">View proof & demos <span aria-hidden="true">↗</span></a></div><div class="hero-note"><span class="pulse"></span> Project archive · 2026</div></div></header>
+<main class="wrap" id="main">
+<section id="projects"><div class="section-head"><h2>Explore the projects</h2><p>Hardware meets code.</p></div><div class="project-grid">
+<article class="project-card"><div class="number">PROJECT 01 / WIRELESS & CONNECTIVITY</div><div class="icon" aria-hidden="true">⌁</div><h3>Sound Stream</h3><p>A collection of embedded-systems experiments spanning wireless communication, a web server, and on-device vision.</p><div class="chips"><span class="chip">BLE</span><span class="chip">LoRa P2P</span><span class="chip">Web server</span><span class="chip">Vision AI</span></div><a class="card-link" href="images.html">Explore demonstrations →</a></article>
+<article class="project-card"><div class="number">PROJECT 02 / PHYSICAL COMPUTING</div><div class="icon" aria-hidden="true">▣</div><h3>Combination Lock</h3><p>An electronic lock prototype using a joystick for input, an OLED interface, servo motors, and audio feedback.</p><div class="chips"><span class="chip">XIAO ESP32-S3</span><span class="chip">128×64 OLED</span><span class="chip">Servos</span><span class="chip">3D parts</span></div><a class="card-link" href="Final/Final.html">View design & simulation →</a></article>
+<article class="project-card"><div class="number">PROJECT 03 / MACHINE LEARNING</div><div class="icon" aria-hidden="true">◈</div><h3>WebMCU AI</h3><p>An on-device vision-model activity: collect examples, train classes, and test live camera recognition.</p><div class="chips"><span class="chip">Computer vision</span><span class="chip">On-device ML</span><span class="chip">Camera</span></div><a class="card-link" href="webmcu-ai-Innes.html">Open project notes →</a></article>
+</div></section>
+<section><div class="feature-band"><div class="feature"><div class="eyebrow">Evidence & process</div><h3>See the projects in action.</h3><p>Browse the recorded demonstrations for the web server, Bluetooth Low Energy, LoRa peer-to-peer communication, and the on-device vision model.</p><a href="images.html">Open the Proof Hub →</a></div><div class="quick-links" aria-label="Quick links"><a href="Final/Simulated.html">Launch combination-lock simulation ↗</a><a href="https://webmcu-ai.github.io/on-device-vision-and-web/" target="_blank" rel="noopener noreferrer">WebMCU AI activity ↗</a><a href="index.html">Return to the main portfolio ↗</a></div></div></section>
+</main>
+<footer><div class="wrap"><span>WebDev Innes · Robotics Hub</span><span>Built around real project work · 2026</span></div></footer>
 <script type="module">
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
-const host=document.querySelector("#scene"),scene=new THREE.Scene();scene.background=new THREE.Color(0x070b16);
-const camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,.1,100);camera.position.set(0,0,5);
-const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;host.appendChild(renderer.domElement);
-const group=new THREE.Group();group.position.set(innerWidth<650?1.25:2.1,.05,0);scene.add(group);
-const crystal=new THREE.Mesh(new THREE.IcosahedronGeometry(1.45,1),new THREE.MeshPhysicalMaterial({color:0x55bfff,metalness:.12,roughness:.12,transmission:.28,thickness:1.4,transparent:true,opacity:.8,flatShading:true}));group.add(crystal);
-const core=new THREE.Mesh(new THREE.IcosahedronGeometry(.95,1),new THREE.MeshBasicMaterial({color:0x9bdfff,wireframe:true,transparent:true,opacity:.2}));group.add(core);
-scene.add(new THREE.AmbientLight(0x7899bb,1.4));const l1=new THREE.PointLight(0x55caff,65,18);l1.position.set(3,3,4);scene.add(l1);const l2=new THREE.PointLight(0x8a55ff,45,18);l2.position.set(-3,-2,2);scene.add(l2);
-let pointerX=0,pointerY=0;addEventListener("pointermove",e=>{pointerX=(e.clientX/innerWidth-.5)*.35;pointerY=(e.clientY/innerHeight-.5)*.25});
-function resize(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);group.position.x=innerWidth<650?1.25:2.1}addEventListener("resize",resize);
+const host=document.querySelector("#scene");
 const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
-function animate(){requestAnimationFrame(animate);if(!reduced){crystal.rotation.y+=.003;crystal.rotation.x+=.0015;core.rotation.y-=.002;group.rotation.y+=(pointerX-group.rotation.y)*.025;group.rotation.x+=(pointerY-group.rotation.x)*.025}renderer.render(scene,camera)}animate();
-</script></body></html>
+if(host&&!reduced){
+  import("https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js").then(THREE=>{
+    const scene=new THREE.Scene();
+    const camera=new THREE.PerspectiveCamera(42,innerWidth/innerHeight,.1,100);
+    camera.position.set(0,0,5.4);
+    const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+    renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+    renderer.setSize(innerWidth,innerHeight);
+    renderer.outputColorSpace=THREE.SRGBColorSpace;
+    host.appendChild(renderer.domElement);
+    const group=new THREE.Group();
+    group.position.set(innerWidth<600?1.2:2.15,.15,0);
+    scene.add(group);
+    const crystal=new THREE.Mesh(new THREE.IcosahedronGeometry(1.45,1),new THREE.MeshPhysicalMaterial({color:0x65caff,metalness:.1,roughness:.13,transmission:.25,thickness:1.3,transparent:true,opacity:.78,flatShading:true}));
+    group.add(crystal);
+    const core=new THREE.Mesh(new THREE.IcosahedronGeometry(.91,1),new THREE.MeshBasicMaterial({color:0xa7e5ff,wireframe:true,transparent:true,opacity:.2}));
+    group.add(core);
+    scene.add(new THREE.AmbientLight(0x7899bb,1.5));
+    const blue=new THREE.PointLight(0x55caff,60,18);blue.position.set(3,3,4);scene.add(blue);
+    const violet=new THREE.PointLight(0x8a55ff,42,18);violet.position.set(-3,-2,2);scene.add(violet);
+    let px=0,py=0;
+    addEventListener("pointermove",e=>{px=(e.clientX/innerWidth-.5)*.25;py=(e.clientY/innerHeight-.5)*.18},{passive:true});
+    function resize(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);group.position.x=innerWidth<600?1.2:2.15}
+    addEventListener("resize",resize);
+    function animate(){requestAnimationFrame(animate);crystal.rotation.y+=.0025;crystal.rotation.x+=.0012;core.rotation.y-=.0018;group.rotation.y+=(px-group.rotation.y)*.02;group.rotation.x+=(py-group.rotation.x)*.02;renderer.render(scene,camera)}
+    animate();
+  }).catch(()=>{host.style.display="none"});
+}
+</script>
+</body></html>
