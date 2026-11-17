@@ -18,6 +18,16 @@ on:
       - '**/*.mpg'
       - '**/*.mts'
       - '**/*.3gp'
+      - '**/*.png'
+      - '**/*.jpg'
+      - '**/*.jpeg'
+      - '**/*.gif'
+      - '**/*.webp'
+      - '**/*.avif'
+      - '**/*.svg'
+      - '**/*.bmp'
+      - '**/*.tif'
+      - '**/*.tiff'
   workflow_dispatch:
 
 permissions:
