@@ -12,7 +12,7 @@ import pillow_heif  # Registers HEIC/HEIF decoding with Pillow.
 import rawpy  # Decodes supported camera RAW formats through LibRaw.
 pillow_heif.register_heif_opener()
 from pathlib import Path, PurePosixPath
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 
 ROOT = Path(__file__).resolve().parents[2]
 PROOF_HUB = ROOT / "images.html"
@@ -85,6 +85,80 @@ def unpack_all_zips() -> list[Path]:
         if not progress:
             break
     return extracted_media
+
+
+def move_uploaded_media(extracted: list[Path]) -> list[Path]:
+    """Move newly uploaded and ZIP-extracted media into videos/ and fix references."""
+    videos_dir = ROOT / "videos"
+    videos_dir.mkdir(exist_ok=True)
+    candidates = set(extracted)
+
+    # Find media files added or changed by the push, without relocating the
+    # repository's existing image/video assets on every workflow run.
+    base = subprocess.os.environ.get("UPLOAD_BASE_SHA", "")
+    if base and set(base) != {"0"}:
+        try:
+            changed = subprocess.check_output(
+                ["git", "diff", "--name-only", "--diff-filter=ACMRT", f"{base}..HEAD"],
+                cwd=ROOT, text=True
+            ).splitlines()
+            candidates.update(
+                ROOT / name for name in changed
+                if (ROOT / name).is_file()
+                and (ROOT / name).suffix.lower() in IMAGE_EXTS | VIDEO_EXTS
+            )
+        except subprocess.CalledProcessError as exc:
+            print(f"WARNING: could not identify changed uploads: {exc}")
+
+    moved: list[Path] = []
+    replacements: list[tuple[str, str]] = []
+    for source in sorted(candidates):
+        if not source.exists() or not source.is_file():
+            continue
+        if source.parent == videos_dir or source.parent == ROOT / ".github":
+            moved.append(source)
+            continue
+
+        original_rel = source.relative_to(ROOT).as_posix()
+        destination = videos_dir / source.name
+        counter = 2
+        while destination.exists() and destination.resolve() != source.resolve():
+            destination = videos_dir / f"{source.stem}-{counter}{source.suffix}"
+            counter += 1
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        source.replace(destination)
+        new_rel = destination.relative_to(ROOT).as_posix()
+        replacements.extend([
+            (original_rel, new_rel),
+            (quote(original_rel, safe="/"), quote(new_rel, safe="/")),
+            (quote(original_rel, safe=""), quote(new_rel, safe="")),
+        ])
+        moved.append(destination)
+        print(f"Moved upload: {original_rel} -> {new_rel}")
+
+    # Keep existing page/workflow references working after the move.
+    if replacements:
+        text_suffixes = {
+            ".html", ".htm", ".css", ".js", ".mjs", ".cjs", ".json",
+            ".xml", ".txt", ".md", ".yml", ".yaml", ".py", ".svg"
+        }
+        for file in ROOT.rglob("*"):
+            if (not file.is_file()
+                or file.suffix.lower() not in text_suffixes
+                or any(part in SKIP_DIRS for part in file.relative_to(ROOT).parts)):
+                continue
+            try:
+                content = file.read_text(encoding="utf-8")
+            except (UnicodeDecodeError, OSError):
+                continue
+            updated = content
+            for old, new in replacements:
+                updated = updated.replace(old, new)
+            if updated != content:
+                file.write_text(updated, encoding="utf-8")
+                print(f"Updated references in {file.relative_to(ROOT)}")
+
+    return moved
 
 
 def convert_videos() -> list[Path]:
@@ -237,6 +311,7 @@ def update_proof_hub(files: list[Path]) -> None:
 
 if __name__ == "__main__":
     media = unpack_all_zips()
+    media = move_uploaded_media(media)
     converted_videos = convert_videos()
     converted_images = convert_images()
     # SVG stays vector; raster formats use optimized WebP copies.
