@@ -164,7 +164,8 @@ def convert_images() -> list[Path]:
 
 def display_name(path: Path) -> str:
     # Strip the extension and turn common filename separators into readable spaces.
-    return re.sub(r"\s+", " ", re.sub(r"[_-]+", " ", path.stem)).strip().title() or path.name
+    stem = re.sub(r"-web$", "", path.stem, flags=re.IGNORECASE)
+    return re.sub(r"\s+", " ", re.sub(r"[_-]+", " ", stem)).strip().title() or path.name
 
 
 def make_card(path: Path) -> str:
