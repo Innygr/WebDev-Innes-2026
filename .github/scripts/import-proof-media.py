@@ -7,6 +7,7 @@ import re
 import subprocess
 import zipfile
 from PIL import Image, ImageOps, UnidentifiedImageError
+import pillow_avif  # Registers AVIF decoding with Pillow.
 from pathlib import Path, PurePosixPath
 from urllib.parse import quote
 
