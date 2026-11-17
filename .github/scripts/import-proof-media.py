@@ -3,13 +3,12 @@
 from __future__ import annotations
 
 import html
-import os
 import re
 import zipfile
 from pathlib import Path, PurePosixPath
 from urllib.parse import quote
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 PROOF_HUB = ROOT / "images.html"
 START = "<!-- AUTO-PROOF-GALLERY:START -->"
 END = "<!-- AUTO-PROOF-GALLERY:END -->"
@@ -82,7 +81,7 @@ def unpack_all_zips() -> list[Path]:
 
 def display_name(path: Path) -> str:
     # Strip the extension and turn common filename separators into readable spaces.
-    return re.sub(r"\\s+", " ", re.sub(r"[_-]+", " ", path.stem)).strip().title() or path.name
+    return re.sub(r"\s+", " ", re.sub(r"[_-]+", " ", path.stem)).strip().title() or path.name
 
 
 def make_card(path: Path) -> str:
@@ -120,7 +119,7 @@ def update_proof_hub(files: list[Path]) -> None:
     start = content.index(START) + len(START)
     end = content.index(END, start)
     existing = content[start:end]
-    known = set(re.findall(r'(?:src|href)="\\./([^"]+)"', content))
+    known = set(re.findall(r'(?:src|href)="\./([^"]+)"', content))
     cards = []
     for path in sorted(set(files), key=lambda p: p.as_posix().lower()):
         rel = path.relative_to(ROOT).as_posix()
