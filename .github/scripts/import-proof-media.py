@@ -8,6 +8,9 @@ import subprocess
 import zipfile
 from PIL import Image, ImageOps, UnidentifiedImageError
 import pillow_avif  # Registers AVIF decoding with Pillow.
+import pillow_heif  # Registers HEIC/HEIF decoding with Pillow.
+import rawpy  # Decodes supported camera RAW formats through LibRaw.
+pillow_heif.register_heif_opener()
 from pathlib import Path, PurePosixPath
 from urllib.parse import quote
 
@@ -15,7 +18,8 @@ ROOT = Path(__file__).resolve().parents[2]
 PROOF_HUB = ROOT / "images.html"
 START = "<!-- AUTO-PROOF-GALLERY:START -->"
 END = "<!-- AUTO-PROOF-GALLERY:END -->"
-IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".avif", ".svg", ".bmp", ".tif", ".tiff"}
+RAW_EXTS = {".3fr", ".ari", ".arw", ".bay", ".cap", ".cr2", ".cr3", ".dcs", ".dcr", ".dng", ".drf", ".eip", ".erf", ".fff", ".gpr", ".iiq", ".k25", ".kdc", ".mdc", ".mef", ".mos", ".mrw", ".nef", ".nrw", ".obm", ".orf", ".pef", ".ptx", ".pxn", ".r3d", ".raf", ".raw", ".rwl", ".rw2", ".rwz", ".sr2", ".srf", ".srw", ".x3f"}
+IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".avif", ".svg", ".bmp", ".tif", ".tiff", ".heic", ".heif"} | RAW_EXTS
 RASTER_IMAGE_EXTS = IMAGE_EXTS - {".svg"}
 VIDEO_EXTS = {".mp4", ".webm", ".mov", ".m4v", ".ogv", ".mkv", ".avi", ".flv", ".wmv", ".mpeg", ".mpg", ".mts", ".3gp"}
 SKIP_DIRS = {".git", ".github", "__pycache__"}
@@ -129,6 +133,17 @@ def convert_images() -> list[Path]:
         target = source.with_name(source.stem + "-web.webp")
         temporary = target.with_name(target.stem + ".tmp.webp")
         try:
+            if source.suffix.lower() in RAW_EXTS:
+                with rawpy.imread(str(source)) as raw:
+                    rgb = raw.postprocess(output_bps=8, use_camera_wb=True, no_auto_bright=False)
+                with Image.fromarray(rgb) as raw_image:
+                    raw_image.thumbnail((2560, 2560), Image.Resampling.LANCZOS)
+                    raw_image.save(temporary, format="WEBP", quality=88, method=6)
+                temporary.replace(target)
+                converted.append(target)
+                print(f"Developed RAW image to WebP: {target.relative_to(ROOT)}")
+                continue
+
             with Image.open(source) as original:
                 frames = []
                 durations = []
@@ -156,7 +171,7 @@ def convert_images() -> list[Path]:
             temporary.replace(target)
             converted.append(target)
             print(f"Converted image to WebP: {target.relative_to(ROOT)}")
-        except (OSError, ValueError, UnidentifiedImageError) as exc:
+        except Exception as exc:
             temporary.unlink(missing_ok=True)
             print(f"ERROR: could not convert image {source.relative_to(ROOT)}: {exc}")
     return converted
