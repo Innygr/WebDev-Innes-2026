@@ -162,14 +162,13 @@ def move_uploaded_media(extracted: list[Path]) -> list[Path]:
     return moved
 
 
-def convert_videos() -> list[Path]:
-    """Create browser-friendly, silent H.264 MP4 copies beside source videos."""
+def convert_videos(uploaded: list[Path]) -> list[Path]:
+    """Convert only media identified as newly uploaded in this workflow run."""
     converted: list[Path] = []
     sources = sorted(
-        p for p in ROOT.rglob("*")
+        p for p in set(uploaded)
         if p.is_file()
         and p.suffix.lower() in VIDEO_EXTS
-        and not any(part in SKIP_DIRS for part in p.relative_to(ROOT).parts)
         and not p.stem.lower().endswith("-web")
     )
     for source in sources:
@@ -194,14 +193,13 @@ def convert_videos() -> list[Path]:
 
 
 
-def convert_images() -> list[Path]:
-    """Create broadly compatible WebP copies; keep SVGs and originals untouched."""
+def convert_images(uploaded: list[Path]) -> list[Path]:
+    """Convert only newly uploaded raster images; preserve originals and SVGs."""
     converted: list[Path] = []
     sources = sorted(
-        p for p in ROOT.rglob("*")
+        p for p in set(uploaded)
         if p.is_file()
         and p.suffix.lower() in RASTER_IMAGE_EXTS
-        and not any(part in SKIP_DIRS for part in p.relative_to(ROOT).parts)
         and not p.stem.lower().endswith("-web")
     )
     for source in sources:
@@ -313,8 +311,8 @@ def update_proof_hub(files: list[Path]) -> None:
 if __name__ == "__main__":
     media = unpack_all_zips()
     media = move_uploaded_media(media)
-    converted_videos = convert_videos()
-    converted_images = convert_images()
+    converted_videos = convert_videos(media)
+    converted_images = convert_images(media)
     # SVG stays vector; raster formats use optimized WebP copies.
     vector_images = [p for p in media if p.suffix.lower() == ".svg"]
     update_proof_hub(vector_images + converted_images + converted_videos)
